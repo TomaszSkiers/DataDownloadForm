@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Box, TextField, Button, Typography, Stack } from "@mui/material";
 
-import { exportPdf } from '../functions/expPdf';
+import { exportPdf } from "../functions/expPdf";
 
 /* ---------- typy i dane ---------- */
 
@@ -33,17 +33,20 @@ export default function Home() {
 
   const triggerDownload = (blob: Blob, filename: string) => {
     const url = URL.createObjectURL(blob);
-    const a = Object.assign(document.createElement("a"), { href: url, download: filename });
+    const a = Object.assign(document.createElement("a"), {
+      href: url,
+      download: filename,
+    });
     a.click();
     URL.revokeObjectURL(url);
   };
 
   const exportJson = () => {
-    const blob = new Blob([JSON.stringify(form, null, 2)], { type: "application/json" });
+    const blob = new Blob([JSON.stringify(form, null, 2)], {
+      type: "application/json",
+    });
     triggerDownload(blob, "dane_formularz.json");
   };
-
-
 
   const importJson = () => fileInputRef.current?.click();
 
@@ -133,7 +136,11 @@ export default function Home() {
           <Button variant="outlined" color="secondary" onClick={exportJson}>
             Eksportuj JSON
           </Button>
-          <Button variant="outlined" color="success" onClick={() => exportPdf()}>
+          <Button
+            variant="outlined"
+            color="success"
+            onClick={() => exportPdf()}
+          >
             Generuj PDF
           </Button>
         </Stack>

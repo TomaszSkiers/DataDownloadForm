@@ -7,6 +7,7 @@ import { getWniosekContent } from "./wniosekPobranieContent"
 import { getPokwitowaniePrzekazaniaDanychContent } from "./pokwitowaniePobranieContent";
 import { wniosekStyles } from "./stylesForPdf";
 
+//! tu trzeba przekazać obiekt z informacjami do drukowania a nie zmienne w plikach
 
 export const exportPdf = (): void => {
   const docDefinition: TDocumentDefinitions = {

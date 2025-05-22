@@ -1,8 +1,9 @@
 import React from "react";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import MainLayout from "./components/MainLayout";
-import Home from "./components/Home"; // <--- dodaj ten import
+import Home2 from "./components/home2/Home2";
 import { CssBaseline } from "@mui/material";
+
 
 const App: React.FC = () => (
   <>
@@ -10,7 +11,7 @@ const App: React.FC = () => (
   <HashRouter>
     <Routes>
       <Route path="/" element={<MainLayout />}>
-        <Route index element={<Home />} /> {/* <-- Strona domowa */}
+        <Route index element={<Home2 />} /> {/* <-- Strona domowa */}
         {/* Tu możesz dodać kolejne podstrony */}
       </Route>
     </Routes>

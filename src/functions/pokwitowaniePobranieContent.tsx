@@ -19,6 +19,8 @@ const workshopData: string =
 const technicansName: string = "Bartosz Skierś";
 const cardNumber: string = "9876345623239090";
 
+//! zmienne wyjebać i przekazać obiekt do funkcji!
+
 /**
  * Funkcja generuje stronę pdf "Pokwitowanie przekazania danych z tachografu cyfrowego"
  * przyjmuje argument oryginał / kopia
