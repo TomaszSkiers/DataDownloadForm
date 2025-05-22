@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Box, TextField, Button, Typography, Stack } from "@mui/material";
 
-import { exportPdf } from "../functions/exportPdf";
+import { exportPdf } from '../functions/expPdf';
 
 /* ---------- typy i dane ---------- */
 
@@ -133,7 +133,7 @@ export default function Home() {
           <Button variant="outlined" color="secondary" onClick={exportJson}>
             Eksportuj JSON
           </Button>
-          <Button variant="outlined" color="success" onClick={() => exportPdf(form)}>
+          <Button variant="outlined" color="success" onClick={() => exportPdf()}>
             Generuj PDF
           </Button>
         </Stack>
