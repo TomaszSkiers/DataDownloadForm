@@ -2,7 +2,7 @@ import type { TDocumentDefinitions } from "pdfmake/interfaces";
 import pdfMake from "pdfmake/build/pdfmake";
 import "pdfmake/build/vfs_fonts"; // Roboto z pl znakami
 
-
+//! pirwszy próbny dokument !!!
 
 const number: string = "123/2025";
 const date: string = "18.05.2025";
@@ -21,7 +21,7 @@ const downloadDataRange: string =
 const reason: string =
   "brak karty przedsiębiorstwa, dokument - dowód osobisty nr FGH 229900";
 
-//! wyjebać stąd zmienne i zrobić porządek z aligment 'left'
+
 
 export const exportPdf = (): void => {
   // 1. Definicja dokumentu PDF

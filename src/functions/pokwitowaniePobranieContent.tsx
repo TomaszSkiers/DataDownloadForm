@@ -12,26 +12,28 @@ const tachoMake: string = "Stoneridge Electronics";
 const vehicleModel: string = "Actros";
 const vrnNumber: string = "WND 00345";
 const vinNumber: string = "WDB1290483982934";
-const downloadDataRange: string =
-  "dane dotyczące czasu pracy za okres ostatnich trzech miesięcy, oraz dane zdarzeń i usterek tachografu, oraz dodatkowe dane zapisywanie w tachografie np: dane pozycji pojazdu";
 const reason: string =
   "brak karty przedsiębiorstwa, dokument - dowód osobisty nr FGH 229900";
+const workshopData: string =
+  "Tacho - Tech Bartosz Skierś 05-120 Skrzeszew ul. Nowodworska 1a";
+const technicansName: string = "Bartosz Skierś";
+const cardNumber: string = "9876345623239090";
 
 /**
- * Funkcja generuje stronę pdf "Wniosek o pobranie danych z tachografu cyfrowego"
+ * Funkcja generuje stronę pdf "Pokwitowanie przekazania danych z tachografu cyfrowego"
  * przyjmuje argument oryginał / kopia
  */
 
-//! poprawić aligment 'left' 
-
-export function getWniosekContent(oryginalCopy: string): Content {
+export function getPokwitowaniePrzekazaniaDanychContent(
+  oryginalCopy: string
+): Content {
   return [
     // Nagłówek na środku
     {
-      text: "Wniosek o pobranie danych z przyrządu rejestrującego", // Nagłówek
-      style: "header", // Odwołanie do stylu 'header' poniżej
-      alignment: "center", // Wyśrodkowanie tekstu
-      margin: [0, 0, 0, 20], // Dodatkowy dolny margines (30pt)
+      text: "Pokwitowanie przekazania danych z tachografu cyfrowego", // Nagłówek
+      style: "header", // Odwołanie do stylu w pliku syylesForPdf.tsx
+      alignment: "center",
+      margin: [0, 0, 0, 20],
     },
     {
       canvas: [{ type: "line", x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1 }],
@@ -67,85 +69,35 @@ export function getWniosekContent(oryginalCopy: string): Content {
       canvas: [{ type: "line", x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1 }],
       margin: [0, 0, 0, 10],
     },
-    //Nowa linia: Ja niżej podpisany
+    //Nowa linia: wydane przez
     {
-      text: [
-        { text: "Ja niżej podpisany: " },
-        {
-          text: "( Imię i nazwisko właściciela / osoby reprezentującej właściciela danych )",
-          fontSize: 8,
-        },
-      ],
+      text: [{ text: "Wydane przez" }],
       margin: [0, 0, 0, 10],
     },
-
-    //Nowa linia: imię i nazwisko właściciela lub osoby go reprezentującej
+    //Nowa linia: zmienna z adresem warsztatu
     {
-      text: [{ text: personOwner, bold: true }],
-      alignment: "left",
-      margin: [50, 0, 0, 10],
+      text: [{ text: workshopData, bold: true }],
+      margin: [50, 0, 0, 5],
+    },
+    //Nowa linia: imię i nazwisko technika pobierającego dane
+    {
+      text: [
+        { text: "Imię i nazwisko technika pobierającego dane: " },
+        { text: technicansName, bold: true }, //* tu trzeba będzie przekazać odpowiednie dane ! bo techników będzie więcej
+      ],
+      margin: [0, 0, 0, 5],
+    },
+    //Nowa linia: numer karty warsztatowej
+    {
+      text: [
+        { text: "Numer karty warsztatowej: " },
+        { text: cardNumber, bold: true },
+      ], //* tu trzeba przekazać odpowiedni nr
+      margin: [0, 0, 0, 10],
     },
     {
       canvas: [{ type: "line", x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1 }],
       margin: [0, 0, 0, 10],
-    },
-    //Nowa linia: występując w imieniu
-    {
-      text: [
-        { text: "Występując w imieniu: " },
-        { text: "( Nazwa i adres właściciela danych )", fontSize: 8 },
-      ],
-      alignment: "left",
-      margin: [0, 0, 0, 10],
-    },
-    //Nowa linia: nazwa właściciela danych
-    {
-      text: [{ text: companyName, bold: true }],
-      alignment: "left",
-      margin: [50, 0, 0, 10],
-    },
-    {
-      canvas: [{ type: "line", x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1 }],
-      margin: [0, 0, 0, 10],
-    },
-    //Nowa linia: zwracam się z prośbą o pobranie danych z tachografu
-    {
-      text: [
-        {
-          text: "Zwracam się z prośbą o pobranie danych z tachografu",
-          bold: true,
-          fontSize: 16,
-        },
-      ],
-      alignment: "center",
-      margin: [0, 0, 0, 15],
-    },
-    //Nowa linia: dane tachografu
-    {
-      text: [{ text: "Dane tachografu:", bold: true }],
-      alignment: "left",
-      margin: [0, 0, 0, 10],
-    },
-    //Nowa linia: Marka
-    {
-      text: [{ text: "Marka: " }, { text: tachoMake, bold: true }],
-      alignment: "left",
-      margin: [50, 0, 0, 5],
-    },
-    //Nowa linia: Numer seryjny
-    {
-      text: [{ text: "Numer seryjny: " }, { text: serialNumber, bold: true }],
-      alignment: "left",
-      margin: [50, 0, 0, 5],
-    },
-    //Nowa linia: Rok produkcji
-    {
-      text: [
-        { text: "Rok produkcji: " },
-        { text: yearOfProduction, bold: true },
-      ],
-      alignment: "left",
-      margin: [50, 0, 0, 10],
     },
     //Nowa linia: Dane pojazdu
     {
@@ -176,47 +128,61 @@ export function getWniosekContent(oryginalCopy: string): Content {
       alignment: "left",
       margin: [50, 0, 0, 10],
     },
-    //Nowa linia: W zakresie (rodzaj pobieranych danych oraz okres, którego dotyczy)
+    //Nowa linia: dane tachografu
     {
-      text: [
-        { text: "W zakresie: ", bold: true },
-        {
-          text: "( Rodzaj pobieranych danych oraz okres, którego dotyczy )",
-          fontSize: 8,
-        },
-      ],
+      text: [{ text: "Dane tachografu:", bold: true }],
       alignment: "left",
       margin: [0, 0, 0, 10],
     },
-    //Nowa linia: rodzaj i zakres pobieranych danych
+    //Nowa linia: Marka
     {
-      text: [{ text: downloadDataRange, bold: true }],
-      margin: [50, 0, 0, 30],
+      text: [{ text: "Marka: " }, { text: tachoMake, bold: true }],
+      alignment: "left",
+      margin: [50, 0, 0, 5],
     },
-    //Nowa linia: Z wnioskiem o prbranie danych występuję na podstawie (podstawa prawna wniosku / dokument tożsamości wnioskodawcy)
+    //Nowa linia: Numer seryjny
+    {
+      text: [{ text: "Numer seryjny: " }, { text: serialNumber, bold: true }],
+      alignment: "left",
+      margin: [50, 0, 0, 5],
+    },
+    //Nowa linia: Rok produkcji
     {
       text: [
-        {
-          text: "Z wnioskiem o pobranie danych występuję na podstawie",
-          bold: true,
-        },
+        { text: "Rok produkcji: " },
+        { text: yearOfProduction, bold: true },
       ],
-      margin: [0, 0, 0, 1],
-    },
-    //Nowa linia:
-    {
-      text: [
-        {
-          text: "( Podstawa prawna wniosku / dokument toźsamości wnioskodawcy )",
-          fontSize: 8,
-        },
-      ],
-      margin: [0, 0, 0, 5],
-    },
-    //Nowa linia: np: z powodu braku karty przedsiębiorcy
-    {
-      text: [{ text: reason, bold: true }],
+      alignment: "left",
       margin: [50, 0, 0, 10],
+    },
+    {
+      canvas: [{ type: "line", x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1 }],
+      margin: [0, 0, 0, 10],
+    },
+    //Nowa linia: właściciel danych z tachografu
+    {
+      text: [{ text: "Właściciel danych z tachografu" }],
+      margin: [0, 0, 0, 10],
+    },
+    //Nowa linia: zmienna z adresem włąściciela - klienta
+    {
+      text: [{ text: companyName, bold: true }],
+      margin: [50, 0, 0, 5],
+    },
+    //Nowa linia: osoba która pobiera pokwitowanie
+    {
+      text: [{ text: personOwner, bold: true }],
+      margin: [50, 0, 0, 20],
+    },
+    //nowa linia: przyczyna pobrania danych
+    {
+        text: [{text: 'Przyczyna pobrania danych'}],
+        margin: [0,0,0,10],
+    },
+    //nowa linia: zmienna 'reason' - czyli dlaczego pobieramy
+    {
+        text: [{text: reason, bold: true}],
+        margin: [50,0,0,0]
     },
     {
       canvas: [
@@ -246,4 +212,3 @@ export function getWniosekContent(oryginalCopy: string): Content {
     //*koniec strony
   ];
 }
-
