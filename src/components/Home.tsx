@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Box, TextField, Button, Typography, Stack } from "@mui/material";
 
-import { exportPdf } from "../functions/expPdf";
+import { exportPdf } from "../functions/pdf/expPdf";
 
 /* ---------- typy i dane ---------- */
 

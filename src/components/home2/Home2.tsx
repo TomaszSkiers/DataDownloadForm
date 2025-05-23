@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Box, TextField, Button, Stack, Typography } from "@mui/material";
 import type { FormValues } from "./Home2.types";
 import {
@@ -18,18 +18,42 @@ import {
   companySectionSx,
   companyLabelSx,
 } from "./Home2.styles";
+import { saveToFile } from "../../functions/saveLoadFromComputer/saveToFile";
+import { useRef } from "react";
+import { readFileAsJson } from "../../functions/saveLoadFromComputer/readFileAsJson";
+import { defaultValues } from "./defaultValues";
 
 export default function Home2() {
   const {
     register,
     handleSubmit,
-
+    reset,
+    control,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<FormValues>({
+    defaultValues
+  });
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const onSubmit = (data: FormValues) => {
     console.log("Dane formularza", data);
+    saveToFile(data, 'moja_nazwa_pliku.json')
   };
+
+const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const file = event.target.files?.[0];
+  if (file) {
+    try {
+      const data = await readFileAsJson<Partial<FormValues>>(file);
+      reset({ ...defaultValues, ...data });
+    } catch (error) {
+      alert("Błąd odczytu pliku: " + (error as Error).message);
+    }
+  }
+  if (fileInputRef.current) fileInputRef.current.value = "";
+};
+
 
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={formBoxSx}>
@@ -60,24 +84,38 @@ export default function Home2() {
         </Stack>
       </Box>
 
-      <Box sx={personSectionSx}>
+       <Box sx={personSectionSx}>
         <Typography component="span" sx={personLabelSx}>
           Imię i nazwisko właściciela / osoby reprezentującej
         </Typography>
         <Stack direction="row" spacing={2}>
-          <TextField
-            label="Imię"
-            {...register("firstName", { required: "To pole jest wymagane" })}
-            error={!!errors.firstName}
-            helperText={errors.firstName?.message}
-            fullWidth
+          <Controller
+            name="firstName"
+            control={control}
+            rules={{ required: "To pole jest wymagane" }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Imię"
+                error={!!errors.firstName}
+                helperText={errors.firstName?.message}
+                fullWidth
+              />
+            )}
           />
-          <TextField
-            label="Nazwisko"
-            {...register("lastName", { required: "To pole jest wymagane" })}
-            error={!!errors.lastName}
-            helperText={errors.lastName?.message}
-            fullWidth
+          <Controller
+            name="lastName"
+            control={control}
+            rules={{ required: "To pole jest wymagane" }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Nazwisko"
+                error={!!errors.lastName}
+                helperText={errors.lastName?.message}
+                fullWidth
+              />
+            )}
           />
         </Stack>
       </Box>
@@ -246,9 +284,24 @@ export default function Home2() {
         </Stack>
       </Box>
 
-      <Button type="submit" variant="contained">
-        Zapisz
-      </Button>
+      <Stack direction="row" spacing={2}>
+        <Button type="submit" variant="contained">
+          Zapisz na dysk
+        </Button>
+        <Button
+          variant="outlined"
+          component="label"
+        >
+          Wczytaj z pliku
+          <input
+            type="file"
+            accept="application/json"
+            hidden
+            onChange={handleFileChange}
+            ref={fileInputRef}
+          />
+        </Button>
+      </Stack>
     </Box>
   );
 }
