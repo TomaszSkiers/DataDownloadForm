@@ -12,4 +12,11 @@ export interface FormValues {
   vehicleModel: string;
   vehicleVRN: string;
   vehicleVin: string;
+  dataType: string;
+  dataScope: string;
+  dataReason: string;
+  serviceName: string;
+  technicianFirstName: string;
+  technicianLastName: string;
+  workshopCardNumber: string;
 }
