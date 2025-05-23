@@ -24,6 +24,7 @@ import { readFileAsJson } from "../../functions/saveLoadFromComputer/readFileAsJ
 import { defaultValues } from "./defaultValues";
 import { exportPdf } from "../../functions/pdf/expPdf";
 
+
 export default function Home2() {
   const {
     handleSubmit,
@@ -39,7 +40,7 @@ export default function Home2() {
 
   const onSubmit = (data: FormValues) => {
     console.log("Dane formularza", data);
-    saveToFile(data, "moja_nazwa_pliku.json");
+    saveToFile(data); //* w data mogę przekazać nazwę pliku
   };
 
   const handleFileChange = async (

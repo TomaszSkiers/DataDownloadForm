@@ -11,11 +11,11 @@ const Header: React.FC = () => (
         sx={{
           flex: 1,
           textAlign: "center",
-          fontSize: "1.2rem", // tutaj możesz ustawić dowolny rozmiar
+          fontSize: "1.3rem", // tutaj możesz ustawić dowolny rozmiar
           fontWeight: 500, // opcjonalnie: pogrubienie
         }}
       >
-        Formularze dla serwisu warsztatu tachografów cyfrowych.
+        Formularz pobrania danych z tachografu cyfrowego.
       </Typography>
     </Toolbar>
   </AppBar>

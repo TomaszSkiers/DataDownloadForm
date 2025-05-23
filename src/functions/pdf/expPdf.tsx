@@ -7,6 +7,7 @@ import { getWniosekContent } from "./wniosekPobranieContent";
 import { getPokwitowaniePrzekazaniaDanychContent } from "./pokwitowaniePobranieContent";
 import { wniosekStyles } from "./stylesForPdf";
 import type { FormValues } from "../../components/home2/Home2.types";
+import { generateFileName } from "../other/filenameUtils";
 
 export const exportPdf = (data: FormValues): void => {
   //tu przekazuję obiekt z danymi
@@ -25,6 +26,7 @@ export const exportPdf = (data: FormValues): void => {
     ],
     styles: wniosekStyles,
   };
-
-  pdfMake.createPdf(docDefinition).download("wniosek.pdf");
+  const fileNameJson = generateFileName(data)
+  const fileNamePdf = fileNameJson.replace(/\.json$/, ".pdf");
+  pdfMake.createPdf(docDefinition).download(fileNamePdf);
 };
