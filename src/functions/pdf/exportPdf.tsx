@@ -1,6 +1,7 @@
 import type { TDocumentDefinitions } from "pdfmake/interfaces";
 import pdfMake from "pdfmake/build/pdfmake";
 import "pdfmake/build/vfs_fonts"; // Roboto z pl znakami
+import type { FormValues } from "../../components/home2/Home2.types";
 
 //! pirwszy próbny dokument !!!
 
@@ -23,7 +24,7 @@ const reason: string =
 
 
 
-export const exportPdf = (): void => {
+export const exportPdf = (data: FormValues): void => {
   // 1. Definicja dokumentu PDF
   const docDefinition: TDocumentDefinitions = {
     // Ustawienia globalne strony

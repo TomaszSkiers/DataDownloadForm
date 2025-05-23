@@ -7,7 +7,7 @@ const Header: React.FC = () => (
   <AppBar position="static">
     <Toolbar>
       <Typography variant="h6" component="div">
-        Moja Strona
+        Formularze dla serwisu warsztatu tachografów cyfrowych.
       </Typography>
     </Toolbar>
   </AppBar>
