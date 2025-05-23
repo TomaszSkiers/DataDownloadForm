@@ -1,25 +1,6 @@
 import type { Content } from "pdfmake/interfaces";
+import type { FormValues } from "../../components/home2/Home2.types";
 
-const number: string = "123/2025";
-const date: string = "18.05.2025";
-const personOwner: string = "Jan Kowalski";
-const companyName: string =
-  "Transport Miedzynarodowy Witold Przeciąg 00-488 Nowa Huta Stalowa ul. Stalowego Pręta 122 m. 44 NIP: 1112223344";
-const vehicleMake: string = "Mercedes Benz";
-const serialNumber: string = "ADE00000234";
-const yearOfProduction: string = "A23";
-const tachoMake: string = "Stoneridge Electronics";
-const vehicleModel: string = "Actros";
-const vrnNumber: string = "WND 00345";
-const vinNumber: string = "WDB1290483982934";
-const reason: string =
-  "brak karty przedsiębiorstwa, dokument - dowód osobisty nr FGH 229900";
-const workshopData: string =
-  "Tacho - Tech Bartosz Skierś 05-120 Skrzeszew ul. Nowodworska 1a";
-const technicansName: string = "Bartosz Skierś";
-const cardNumber: string = "9876345623239090";
-
-//! zmienne wyjebać i przekazać obiekt do funkcji!
 
 /**
  * Funkcja generuje stronę pdf "Pokwitowanie przekazania danych z tachografu cyfrowego"
@@ -27,7 +8,8 @@ const cardNumber: string = "9876345623239090";
  */
 
 export function getPokwitowaniePrzekazaniaDanychContent(
-  oryginalCopy: string
+  oryginalCopy: string,
+  data: FormValues
 ): Content {
   return [
     // Nagłówek na środku
@@ -49,7 +31,7 @@ export function getPokwitowaniePrzekazaniaDanychContent(
           width: "auto",
           text: [
             { text: "Numer: " }, // "Numer:" pogrubione
-            { text: number, bold: true }, // wartość numeru (np. "001/2024")
+            { text: data.documentNumber, bold: true }, // wartość numeru (np. "001/2024")
           ],
           margin: [0, 0, 0, 10], // Dolny margines 10pt (odstęp od kolejnej sekcji)
         },
@@ -64,7 +46,7 @@ export function getPokwitowaniePrzekazaniaDanychContent(
     },
     //Nowa linia: data
     {
-      text: [{ text: "Data: " }, { text: date, bold: true }],
+      text: [{ text: "Data: " }, { text: data.date, bold: true }],
       margin: [0, 0, 0, 10],
     },
     {
@@ -78,14 +60,15 @@ export function getPokwitowaniePrzekazaniaDanychContent(
     },
     //Nowa linia: zmienna z adresem warsztatu
     {
-      text: [{ text: workshopData, bold: true }],
+      text: [{ text: data.serviceName, bold: true }],
       margin: [50, 0, 0, 5],
     },
     //Nowa linia: imię i nazwisko technika pobierającego dane
     {
       text: [
         { text: "Imię i nazwisko technika pobierającego dane: " },
-        { text: technicansName, bold: true }, //* tu trzeba będzie przekazać odpowiednie dane ! bo techników będzie więcej
+        { text: data.technicianFirstName + ' ', bold: true }, 
+        { text: data.technicianLastName, bold: true}
       ],
       margin: [0, 0, 0, 5],
     },
@@ -93,8 +76,8 @@ export function getPokwitowaniePrzekazaniaDanychContent(
     {
       text: [
         { text: "Numer karty warsztatowej: " },
-        { text: cardNumber, bold: true },
-      ], //* tu trzeba przekazać odpowiedni nr
+        { text: data.workshopCardNumber, bold: true },
+      ], 
       margin: [0, 0, 0, 10],
     },
     {
@@ -108,25 +91,25 @@ export function getPokwitowaniePrzekazaniaDanychContent(
     },
     //Nowa linia: Marka pojazdu
     {
-      text: [{ text: "Marka pojazdu: " }, { text: vehicleMake, bold: true }],
+      text: [{ text: "Marka pojazdu: " }, { text: data.vehicleBrand, bold: true }],
       alignment: "left",
       margin: [50, 0, 0, 5],
     },
     //Nowa linia: Model
     {
-      text: [{ text: "Model pojazdu: " }, { text: vehicleModel, bold: true }],
+      text: [{ text: "Model pojazdu: " }, { text: data.vehicleModel, bold: true }],
       alignment: "left",
       margin: [50, 0, 0, 5],
     },
     //Nowa linia: Numer VRN
     {
-      text: [{ text: "Numer VRN: " }, { text: vrnNumber, bold: true }],
+      text: [{ text: "Numer VRN: " }, { text: data.vehicleVRN, bold: true }],
       alignment: "left",
       margin: [50, 0, 0, 5],
     },
     //Nowa linia: Numer VIN
     {
-      text: [{ text: "Numer VIN: " }, { text: vinNumber, bold: true }],
+      text: [{ text: "Numer VIN: " }, { text: data.vehicleVin, bold: true }],
       alignment: "left",
       margin: [50, 0, 0, 10],
     },
@@ -138,13 +121,13 @@ export function getPokwitowaniePrzekazaniaDanychContent(
     },
     //Nowa linia: Marka
     {
-      text: [{ text: "Marka: " }, { text: tachoMake, bold: true }],
+      text: [{ text: "Marka: " }, { text: data.tachoBrand, bold: true }],
       alignment: "left",
       margin: [50, 0, 0, 5],
     },
     //Nowa linia: Numer seryjny
     {
-      text: [{ text: "Numer seryjny: " }, { text: serialNumber, bold: true }],
+      text: [{ text: "Numer seryjny: " }, { text: data.tachoSerial, bold: true }],
       alignment: "left",
       margin: [50, 0, 0, 5],
     },
@@ -152,7 +135,7 @@ export function getPokwitowaniePrzekazaniaDanychContent(
     {
       text: [
         { text: "Rok produkcji: " },
-        { text: yearOfProduction, bold: true },
+        { text: data.tachoYear, bold: true },
       ],
       alignment: "left",
       margin: [50, 0, 0, 10],
@@ -168,12 +151,14 @@ export function getPokwitowaniePrzekazaniaDanychContent(
     },
     //Nowa linia: zmienna z adresem włąściciela - klienta
     {
-      text: [{ text: companyName, bold: true }],
+      text: [{ text: data.companyName, bold: true }],
       margin: [50, 0, 0, 5],
     },
     //Nowa linia: osoba która pobiera pokwitowanie
     {
-      text: [{ text: personOwner, bold: true }],
+      text: [{ text: data.firstName + ' ', bold: true },
+        {text: data.lastName, bold: true}
+      ],
       margin: [50, 0, 0, 20],
     },
     //nowa linia: przyczyna pobrania danych
@@ -183,7 +168,7 @@ export function getPokwitowaniePrzekazaniaDanychContent(
     },
     //nowa linia: zmienna 'reason' - czyli dlaczego pobieramy
     {
-        text: [{text: reason, bold: true}],
+        text: [{text: data.dataReason, bold: true}],
         margin: [50,0,0,0]
     },
     {

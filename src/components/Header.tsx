@@ -6,7 +6,15 @@ import Typography from "@mui/material/Typography";
 const Header: React.FC = () => (
   <AppBar position="static">
     <Toolbar>
-      <Typography variant="h6" component="div">
+      <Typography
+        component="div"
+        sx={{
+          flex: 1,
+          textAlign: "center",
+          fontSize: "1.2rem", // tutaj możesz ustawić dowolny rozmiar
+          fontWeight: 500, // opcjonalnie: pogrubienie
+        }}
+      >
         Formularze dla serwisu warsztatu tachografów cyfrowych.
       </Typography>
     </Toolbar>
@@ -14,3 +22,5 @@ const Header: React.FC = () => (
 );
 
 export default Header;
+
+

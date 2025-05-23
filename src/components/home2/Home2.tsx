@@ -409,10 +409,10 @@ export default function Home2() {
 
       {/* PRZYCISKI */}
       <Stack direction="row" spacing={2}>
-        <Button type="submit" variant="contained">
+        <Button type="submit" variant="outlined" fullWidth color="secondary">
           Zapisz na dysk
         </Button>
-        <Button variant="outlined" component="label">
+        <Button variant="outlined" component="label" fullWidth>
           Wczytaj z pliku
           <input
             type="file"
@@ -424,6 +424,7 @@ export default function Home2() {
         </Button>
         <Button
           variant="outlined"
+          fullWidth
           color="success"
           onClick={() => {
             const formData = getValues();

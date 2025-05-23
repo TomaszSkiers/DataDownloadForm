@@ -7,7 +7,6 @@ import type { FormValues } from "../../components/home2/Home2.types";
  * przyjmuje argument oryginał / kopia
  */
 
-//! poprawić aligment 'left' 
 
 export function getWniosekContent(oryginalCopy: string, data: FormValues): Content {
   return [
@@ -38,6 +37,7 @@ export function getWniosekContent(oryginalCopy: string, data: FormValues): Conte
         {
           width: "*",
           text: oryginalCopy,
+          bold: true,
           alignment: "right", // Do prawego marginesu
           margin: [0, 0, 20, 10],
         },
@@ -66,7 +66,7 @@ export function getWniosekContent(oryginalCopy: string, data: FormValues): Conte
 
     //Nowa linia: imię i nazwisko właściciela lub osoby go reprezentującej
     {
-      text: [{ text: data.firstName, bold: true }, {text: data.lastName, bold: true}],
+      text: [{ text: data.firstName + ' ', bold: true }, {text: data.lastName, bold: true}],
       alignment: "left",
       margin: [50, 0, 0, 10],
     },
@@ -86,6 +86,11 @@ export function getWniosekContent(oryginalCopy: string, data: FormValues): Conte
     //Nowa linia: nazwa właściciela danych
     {
       text: [{ text: data.companyName, bold: true }],
+      alignment: "left",
+      margin: [50, 0, 0, 5],
+    },
+    {
+      text: [{ text: data.address, bold: true }],
       alignment: "left",
       margin: [50, 0, 0, 10],
     },
@@ -176,6 +181,10 @@ export function getWniosekContent(oryginalCopy: string, data: FormValues): Conte
     //Nowa linia: rodzaj i zakres pobieranych danych
     {
       text: [{ text: data.dataScope, bold: true }],
+      margin: [50, 0, 0, 5],
+    },
+    {
+      text: [{ text: data.dataType, bold: true }],
       margin: [50, 0, 0, 30],
     },
     //Nowa linia: Z wnioskiem o prbranie danych występuję na podstawie (podstawa prawna wniosku / dokument tożsamości wnioskodawcy)
