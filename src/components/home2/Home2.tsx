@@ -15,6 +15,7 @@ import { VehicleSection } from "./sections/VegicleSection";
 import { DataInfoSection } from "./sections/DataInfoSection";
 import { ServiceSection } from "./sections/ServiceSection";
 import { generatePdf } from "../../functions/pdfLib/generatePdf";
+import { generatePdfCard } from "../../functions/pdfLib/generatePdfCard";
 
 export default function Home2() {
   const {
@@ -30,8 +31,8 @@ export default function Home2() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const onSubmit = (data: FormValues) => {
-    console.log("Dane formularza", data);   //debugger
-    saveToFile(data);                       //* w data mogę przekazać nazwę pliku
+    console.log("Dane formularza", data); //debugger
+    saveToFile(data); //* w data mogę przekazać nazwę pliku
   };
 
   const handleFileChange = async (
@@ -49,16 +50,33 @@ export default function Home2() {
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  //generowanie pdfa za pomocą pdfLib
+  //generowanie pdfa za pomocą pdfLib - pobieranie na komputer
 
   const handleCreatePdf = async () => {
-    const blob = await generatePdf('Przykładowy tekst');
+    const blob = await generatePdf("Przykładowy tekst");
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = 'nowy.pdf';
+    a.download = "nowy.pdf";
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  //generowanie pdfa za pomocą pdfLib - otwieranie w nowym oknie przeglądarki
+
+  const handleGeneratePdf = async (data: FormValues) => {
+    try {
+      
+      const pdfUrl = await generatePdfCard(data);
+
+      // Otwórz PDF w nowej karcie
+      window.open(pdfUrl, "_blank");
+
+      // Zwolnienie pamięci po 10 sekundach (opcjonalne)
+      setTimeout(() => URL.revokeObjectURL(pdfUrl), 10000);
+    } catch (error) {
+      console.error("Błąd podczas generowania PDF:", error);
+    }
   };
 
   return (
@@ -95,13 +113,26 @@ export default function Home2() {
           }}
         >
           Generuj stary PDF
-        </Button >
+        </Button>
         <Button
           variant="outlined"
           color="success"
           fullWidth
           onClick={handleCreatePdf}
-        >Generuj nowy pdf</Button>
+        >
+          Generuj nowy pdf
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={()=> {
+            const formData = getValues();
+            handleGeneratePdf(formData);
+          }}
+        >
+          Otwórz PDF w nowej karcie
+        </Button>
       </Stack>
     </Box>
   );
