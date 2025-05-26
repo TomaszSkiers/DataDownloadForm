@@ -56,11 +56,12 @@ const MainLayout: React.FC = () => (
     <Box
       sx={{
         height: FOOTER_HEIGHT,
-        position: "sticky",
-        bottom: 0,
-        zIndex: 1201,
+        // position: "sticky",
+        // bottom: 0,
+        // zIndex: 1201,
         bgcolor: "background.paper",
         flexShrink: 0,
+        mt: '30px',
       }}
     >
       <Footer />

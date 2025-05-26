@@ -66,7 +66,7 @@ export function getPokwitowaniePrzekazaniaDanychContent(
     //Nowa linia: imię i nazwisko technika pobierającego dane
     {
       text: [
-        { text: "Imię i nazwisko technika pobierającego dane: " },
+        { text: "Imię i nazwisko technika pobierającego dane " },
         { text: data.technicianFirstName + ' ', bold: true }, 
         { text: data.technicianLastName, bold: true}
       ],
@@ -75,7 +75,7 @@ export function getPokwitowaniePrzekazaniaDanychContent(
     //Nowa linia: numer karty warsztatowej
     {
       text: [
-        { text: "Numer karty warsztatowej: " },
+        { text: "Numer karty warsztatowej " },
         { text: data.workshopCardNumber, bold: true },
       ], 
       margin: [0, 0, 0, 10],

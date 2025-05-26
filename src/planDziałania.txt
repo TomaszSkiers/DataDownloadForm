@@ -1,0 +1,7 @@
+
+2. poprawić wizualnie drukowanie, żeby wydruki były bardziej wizualnie fajne
+
+
+
+3. zastanowić się nad koncepcją całości aplikacji, co jeszcze można dodać żeby zbudować pomocną apkę, 
+
