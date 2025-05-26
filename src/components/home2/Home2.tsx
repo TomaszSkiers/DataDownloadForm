@@ -14,6 +14,7 @@ import { TahographSection } from "./sections/TagographSection";
 import { VehicleSection } from "./sections/VegicleSection";
 import { DataInfoSection } from "./sections/DataInfoSection";
 import { ServiceSection } from "./sections/ServiceSection";
+import { generatePdf } from "../../functions/pdfLib/generatePdf";
 
 export default function Home2() {
   const {
@@ -46,6 +47,18 @@ export default function Home2() {
       }
     }
     if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  //generowanie pdfa za pomocą pdfLib
+
+  const handleCreatePdf = async () => {
+    const blob = await generatePdf('Przykładowy tekst');
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'nowy.pdf';
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -81,8 +94,14 @@ export default function Home2() {
             exportPdf(formData);
           }}
         >
-          Generuj PDF
-        </Button>
+          Generuj stary PDF
+        </Button >
+        <Button
+          variant="outlined"
+          color="success"
+          fullWidth
+          onClick={handleCreatePdf}
+        >Generuj nowy pdf</Button>
       </Stack>
     </Box>
   );
