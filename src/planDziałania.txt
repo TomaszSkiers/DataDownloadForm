@@ -4,7 +4,9 @@
     b. załadować wniosek
     c. ograniczyć numer do ośmiu znaków
     d. utworzyć wspólny plik na funkcje, które ładują fonty i tło
-
+    e. pousuwać niepotrzebne pliki
+    f. auto wrap linii tekstu albo ograniczenie przy wprowadzaniu, żeby tekst nie uciekał za dokument
+    g. ograniczenie numeru vin do max 17 znaków 
 
 
 3. zastanowić się nad koncepcją całości aplikacji, co jeszcze można dodać żeby zbudować pomocną apkę, 
