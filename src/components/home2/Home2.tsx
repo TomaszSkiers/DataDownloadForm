@@ -68,7 +68,6 @@ export default function Home2() {
 
   const handleGeneratePdf = async (data: FormValues) => {
     try {
-      
       const pdfUrl = await generatePdfCard(data);
 
       // Otwórz PDF w nowej karcie
@@ -120,7 +119,10 @@ export default function Home2() {
           variant="outlined"
           color="success"
           fullWidth
-          onClick={openPdfInNewTab}
+          onClick={() => {
+            const formData = getValues();
+            openPdfInNewTab(formData);
+          }}
         >
           pdf-lib podział na pliki
         </Button>
@@ -128,7 +130,7 @@ export default function Home2() {
           variant="contained"
           color="primary"
           fullWidth
-          onClick={()=> {
+          onClick={() => {
             const formData = getValues();
             handleGeneratePdf(formData);
           }}

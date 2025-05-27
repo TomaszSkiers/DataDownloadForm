@@ -1,6 +1,7 @@
 import { createPageOne } from "./pageOne";
 import { createPageTwo } from "./pageTwo";
 import { margePages } from "./mergePages";
+import type { FormValues } from "../../../components/home2/Home2.types";
 
 const baseUrl = import.meta.env.BASE_URL;
 
@@ -11,15 +12,15 @@ const fetchBackgroundPdf = async () => {
 };
 
 // funkcja do pobierania fonta np: lato
-const fetchLatoFont = async () => {
-  const response = await fetch(`${baseUrl}fonts/Roboto-Regular.ttf`);
+const fetchFont = async () => {
+  const response = await fetch(`${baseUrl}fonts/Charm-Bold.ttf`);
   return await response.arrayBuffer();
 };
 
-export const openPdfInNewTab = async () => {
+export const openPdfInNewTab = async (text: FormValues) => {
   const backgroundArrayBuffer = await fetchBackgroundPdf();
-  const latoFont = await fetchLatoFont();
-  const page1 = await createPageOne(backgroundArrayBuffer, latoFont);
+  const charmBoldFont = await fetchFont();
+  const page1 = await createPageOne(backgroundArrayBuffer, charmBoldFont, text);
   const page2 = await createPageTwo();
   const mergedPdf = await margePages([page1, page2]);
 
