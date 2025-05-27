@@ -14,7 +14,13 @@ export function DocumentDataSection({ control, errors }: Props) {
         <Controller
           name="documentNumber"
           control={control}
-          rules={{ required: "To pole jest wymagane" }}
+          rules={{
+            required: "To pole jest wymagane",
+            pattern: {
+              value: /^\d{8}$/,
+              message: "Numer musi mieć dokładnie 8 cyfr",
+            },
+          }}
           render={({ field }) => (
             <TextField
               {...field}
@@ -22,9 +28,20 @@ export function DocumentDataSection({ control, errors }: Props) {
               error={!!errors.documentNumber}
               helperText={errors.documentNumber?.message}
               fullWidth
+              inputProps={{ maxLength: 8 }}
+              onBlur={(e) => {
+                // Dopełnij zerami do 8, ale nie przekraczaj 8 znaków
+                let value = e.target.value.replace(/\D/g, ""); // tylko cyfry
+                if (value.length < 8) {
+                  value = value.padStart(8, "0");
+                }
+                field.onChange(value);
+                field.onBlur();
+              }}
             />
           )}
         />
+
         <Controller
           name="date"
           control={control}

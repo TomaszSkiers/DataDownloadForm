@@ -1,12 +1,29 @@
 
 2. poprawić wizualnie drukowanie, żeby wydruki były bardziej wizualnie fajne
-2   a. podzielić na pliki -> to już mam
-    b. załadować wniosek
-    c. ograniczyć numer do ośmiu znaków
-    d. utworzyć wspólny plik na funkcje, które ładują fonty i tło
+2   a. ok. podzielić na pliki -> to już mam
+    b. ok. załadować wniosek
+    c. ok. ograniczyć numer do ośmiu znaków
+    d. ok. utworzyć wspólny plik na funkcje, które ładują fonty i tło
     e. pousuwać niepotrzebne pliki
-    f. auto wrap linii tekstu albo ograniczenie przy wprowadzaniu, żeby tekst nie uciekał za dokument
-    g. ograniczenie numeru vin do max 17 znaków 
+    f. ok. auto wrap linii tekstu albo ograniczenie przy wprowadzaniu, żeby tekst nie uciekał za dokument
+    g. ok. ograniczenie numeru vin do max 17 znaków 
+    h. zrobić pokwitowanie
+
+3.  dobudować przyciski, które generują odpowiednio:
+    oryginał wniosek
+    kopia wniosek
+    oryginał pokwitowanie
+    kopia pokwitowanie
+    zapis i odczyt z pliku
+
+4.  dobudować checkboxy 
+    podpis wnioskodawcy -> "weryfikacja elektroniczna - karta kierowcy"
+    podpis pracownika warsztatu -> "weryfikacja elektroniczna - karta warsztatowa"
+    i fajne zdjęcia tych karta
+    dodać przekreślenia *niepotrzebne skreślić 
+
+5.  dobudować fajny komponent z podstawę prawną, która przypomina obowiązki warsztatu 
+    jeśli chodzi o pobieranie danych
 
 
 3. zastanowić się nad koncepcją całości aplikacji, co jeszcze można dodać żeby zbudować pomocną apkę, 

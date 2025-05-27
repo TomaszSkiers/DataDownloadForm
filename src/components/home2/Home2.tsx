@@ -115,17 +115,17 @@ export default function Home2() {
         >
           Generuj stary PDF
         </Button>
+        
+
         <Button
           variant="outlined"
           color="success"
           fullWidth
-          onClick={() => {
-            const formData = getValues();
-            openPdfInNewTab(formData);
-          }}
+          onClick={handleSubmit(openPdfInNewTab)}
         >
           pdf-lib podział na pliki
         </Button>
+
         <Button
           variant="contained"
           color="primary"

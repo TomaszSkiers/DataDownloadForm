@@ -55,17 +55,38 @@ export function VehicleSection({ control, errors }: Props) {
         <Controller
           name="vehicleVin"
           control={control}
-          rules={{ required: "To pole jest wymagane" }}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Numer VIN"
-              error={!!errors.vehicleVin}
-              helperText={errors.vehicleVin?.message}
-              fullWidth
-              inputProps={{ maxLength: 17 }}
-            />
-          )}
+          rules={{
+            required: "To pole jest wymagane",
+            maxLength: {
+              value: 17,
+              message: "Maksymalnie 17 znaków",
+            },
+          }}
+          render={({ field }) => {
+            // Liczymy znaki bez spacji na końcu (żeby nie wprowadzało w błąd)
+            const currentLength = field.value?.trimEnd().length ?? 0;
+            return (
+              <TextField
+                {...field}
+                label="Numer VIN"
+                error={!!errors.vehicleVin}
+                // Helper text pokazuje komunikat walidacyjny lub licznik znaków
+                helperText={
+                  errors.vehicleVin?.message
+                    ? errors.vehicleVin.message
+                    : `Wprowadź dokładnie 17 znaków VIN (${currentLength}/17)`
+                }
+                fullWidth
+                inputProps={{ maxLength: 17 }}
+                onBlur={(e) => {
+                  // Zamiana na wielkie litery + dopełnienie spacjami do 17 znaków
+                  const value = e.target.value.toUpperCase().padEnd(17, " ");
+                  field.onChange(value);
+                  field.onBlur();
+                }}
+              />
+            );
+          }}
         />
       </Stack>
     </Box>
