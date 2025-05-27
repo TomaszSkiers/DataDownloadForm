@@ -1,5 +1,9 @@
 
 2. poprawić wizualnie drukowanie, żeby wydruki były bardziej wizualnie fajne
+2   a. podzielić na pliki -> to już mam
+    b. załadować wniosek
+    c. ograniczyć numer do ośmiu znaków
+    d. utworzyć wspólny plik na funkcje, które ładują fonty i tło
 
 
 

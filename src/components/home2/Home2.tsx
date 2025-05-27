@@ -14,8 +14,10 @@ import { TahographSection } from "./sections/TagographSection";
 import { VehicleSection } from "./sections/VegicleSection";
 import { DataInfoSection } from "./sections/DataInfoSection";
 import { ServiceSection } from "./sections/ServiceSection";
-import { generatePdf } from "../../functions/pdfLib/generatePdf";
+// import { generatePdf } from "../../functions/pdfLib/generatePdf";
 import { generatePdfCard } from "../../functions/pdfLib/generatePdfCard";
+// import { handleDownload } from "../../functions/pdfLib/pages/useDownloadPdf";
+import { openPdfInNewTab } from "../../functions/pdfLib/pages/openPdfInNewTab";
 
 export default function Home2() {
   const {
@@ -52,15 +54,15 @@ export default function Home2() {
 
   //generowanie pdfa za pomocą pdfLib - pobieranie na komputer
 
-  const handleCreatePdf = async () => {
-    const blob = await generatePdf("Przykładowy tekst");
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "nowy.pdf";
-    a.click();
-    URL.revokeObjectURL(url);
-  };
+  // const handleCreatePdf = async () => {
+  //   const blob = await generatePdf("Przykładowy tekst");
+  //   const url = URL.createObjectURL(blob);
+  //   const a = document.createElement("a");
+  //   a.href = url;
+  //   a.download = "nowy.pdf";
+  //   a.click();
+  //   URL.revokeObjectURL(url);
+  // };
 
   //generowanie pdfa za pomocą pdfLib - otwieranie w nowym oknie przeglądarki
 
@@ -118,9 +120,9 @@ export default function Home2() {
           variant="outlined"
           color="success"
           fullWidth
-          onClick={handleCreatePdf}
+          onClick={openPdfInNewTab}
         >
-          Generuj nowy pdf
+          pdf-lib podział na pliki
         </Button>
         <Button
           variant="contained"

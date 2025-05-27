@@ -107,15 +107,15 @@ export async function generatePdfCard(text: FormValues): Promise<string> {
 
   // Początkowe pozycje
   const startX = 104;
-  const startY = 752;
-  const charSpacing = 14; // Odstęp między znakami
+  const startY = 752.5;
+  const charSpacing = 14.35; // Odstęp między znakami
   const fontSize = 15;
 
   // Rysowanie wszystkich 8 znaków w pętli
   for (let i = 0; i < 8; i++) {
     page.drawText(znaki[i] || "", {
       // || '' zabezpiecza przed undefined
-      x: i <3 ? startX + i * charSpacing : startX + 2 + i * charSpacing,
+      x: startX + i * charSpacing ,
       y: startY,
       size: fontSize,
       font: boldFont, // Używamy pogrubionej czcionki
