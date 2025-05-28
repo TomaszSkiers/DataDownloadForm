@@ -13,28 +13,42 @@ export function CompanySection({ control, errors }: Props) {
         <Controller
           name="companyName"
           control={control}
-          rules={{ required: "To pole jest wymagane" }}
+          rules={{
+            required: "To pole jest wymagane",
+            maxLength: { value: 75, message: "Maksymalnie 75 znaków" },
+          }}
           render={({ field }) => (
             <TextField
               {...field}
               label="Nazwa firmy"
               error={!!errors.companyName}
-              helperText={errors.companyName?.message}
+              helperText={
+                errors.companyName?.message ??
+                `${field.value?.length || 0}/75 znaków`
+              }
               fullWidth
+              inputProps={{ maxLength: 75 }}
             />
           )}
         />
         <Controller
           name="address"
           control={control}
-          rules={{ required: "To pole jest wymagane" }}
+          rules={{
+            required: "To pole jest wymagane",
+            maxLength: { value: 75, message: "Maksymalnie 75 znaków" },
+          }}
           render={({ field }) => (
             <TextField
               {...field}
               label="Adres"
               error={!!errors.address}
-              helperText={errors.address?.message}
+              helperText={
+                errors.address?.message ??
+                `${field.value?.length || 0}/75 znaków`
+              }
               fullWidth
+              inputProps={{ maxLength: 75 }}
             />
           )}
         />

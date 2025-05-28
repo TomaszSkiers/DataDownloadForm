@@ -11,7 +11,7 @@ export async function generatePdfCard(text: FormValues): Promise<string> {
   // 1. Pobieranie istniejącego PDF i czcionek
   const [existingPdfResponse, regularFontResponse, boldFontResponse] =
     await Promise.all([
-      fetch(`${baseUrl}wniosek.pdf`),
+      fetch(`${baseUrl}pokwitowanie.pdf`),
       fetch(`${baseUrl}fonts/Roboto-Regular.ttf`),
       fetch(`${baseUrl}fonts/Roboto-Bold.ttf`), 
     ]);
@@ -102,38 +102,7 @@ export async function generatePdfCard(text: FormValues): Promise<string> {
 
   //* koniec rysowania siatki ------------------------------
 
-  // 5. Poprawne użycie czcionek i rysowanie elementów
-  const znaki = [...text.documentNumber];
-
-  // Początkowe pozycje
-  const startX = 104;
-  const startY = 752.5;
-  const charSpacing = 14.35; // Odstęp między znakami
-  const fontSize = 15;
-
-  // Rysowanie wszystkich 8 znaków w pętli
-  for (let i = 0; i < 8; i++) {
-    page.drawText(znaki[i] || "", {
-      // || '' zabezpiecza przed undefined
-      x: startX + i * charSpacing ,
-      y: startY,
-      size: fontSize,
-      font: boldFont, // Używamy pogrubionej czcionki
-      color: rgb(0, 0, 0), // Czarny kolor
-    });
-  }
-
-  // Rysowanie linii
-  page.drawLine({
-    start: { x: 420, y: 753 },
-    end: { x: 455, y: 753 },
-    thickness: 2,
-    color: rgb(0, 0, 0), // Lepiej użyć czarnego (rgb(0,0,0))
-  });
-
-  const [year, month, day] = text.date.split('-')
-
-  page.drawText(year, {x: 185, y: 720, font: boldFont, size: 15})
+ 
 
   // Zapis i zwrócenie URL
   const pdfBytes = await pdfDoc.save();

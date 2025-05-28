@@ -24,6 +24,20 @@ export function ServiceSection({control, errors}: Props) {
               />
             )}
           />
+          <Controller 
+           name='serviceAddress'
+           control={control}
+           rules={{required: 'To pole jest wymagane'}}
+           render={({field})=> (
+            <TextField 
+              {...field}
+              label='Adres Serwisu'
+              error={!!errors.serviceAddress}
+              helperText={errors.serviceName?.message}
+              fullWidth
+            />
+           )}
+          />
           <Stack direction="row" spacing={2}>
             <Controller
               name="technicianFirstName"

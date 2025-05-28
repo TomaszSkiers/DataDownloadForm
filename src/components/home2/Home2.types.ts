@@ -16,6 +16,7 @@ export interface FormValues {
   dataScope: string;
   dataReason: string;
   serviceName: string;
+  serviceAddress: string;
   technicianFirstName: string;
   technicianLastName: string;
   workshopCardNumber: string;

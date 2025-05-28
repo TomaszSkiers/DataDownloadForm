@@ -7,7 +7,8 @@ import { createPageDrawer } from "./pdfLibHelpers";
 export async function createPageOne(
   backgroundPdfArrayBuffer: ArrayBuffer,
   fontArrayBuffer: ArrayBuffer,
-  text: FormValues
+  text: FormValues,
+  oryginalCopy: boolean = true,
 ): Promise<Uint8Array> {
   // 1. Tworzymy nowy dokument PDF
   const pdfDoc = await PDFDocument.create();
@@ -33,7 +34,7 @@ export async function createPageOne(
   //numer dokumentu
   let startX = 104;
   let startY = 752.5;
-  let charSpacing = 14.35; // Odstęp między znakami
+  let charSpacing = 14.35; 
   let fontSize = 15;
 
   // Rysowanie wszystkich 8 znaków w pętli
@@ -49,8 +50,8 @@ export async function createPageOne(
   }
   //oryginał/kopia
   page.drawLine({
-    start: { x: 460, y: 753 },
-    end: { x: 482, y: 753 },
+    start: oryginalCopy ? { x: 460, y: 753 } : { x: 420, y: 753},
+    end: oryginalCopy ? { x: 482, y: 753 } : {x: 455, y: 753},
     thickness: 2,
     color: rgb(0, 0, 0), // Lepiej użyć czarnego (rgb(0,0,0))
   });
@@ -61,11 +62,12 @@ export async function createPageOne(
   page.drawText(month, { x: 140, y: 720, font: charmBoldFont, size: 15 });
   page.drawText(day, { x: 100, y: 720, font: charmBoldFont, size: 15 });
   //imię i nazwisko
-  drawer.drawWrapped(`${text.firstName}  ${text.lastName}`, 100, 661, 400);
+  drawer.drawWrapped(`${text.firstName}  ${text.lastName}`, 70, 661, 450);
   //nazwa firmy
-  drawer.drawWrapped(text.companyName, 100, 588, 400);
+  drawer.drawWrapped(text.companyName, 70, 588, 450);
+  //todo brakuje adresu firmy
   //marka tachografu
-  drawer.drawWrapped(text.tachoBrand, 100, 475, 400);
+  drawer.drawWrapped(text.tachoBrand, 100, 475, 450);
   //numer tachografu
   page.drawText(text.tachoSerial, {
     x: 140,
@@ -108,7 +110,6 @@ export async function createPageOne(
   charSpacing = 14.35; // Odstęp między znakami
   fontSize = 15;
 
-  // Rysowanie wszystkich 8 znaków w pętli
   for (let i = 0; i < 17; i++) {
     page.drawText(znaki[i] || "", {
       // || '' zabezpiecza przed undefined
@@ -121,11 +122,11 @@ export async function createPageOne(
   }
 
   //zakres pobieranych danych
-  page.drawText(text.dataScope, {x: 100, y: 315, font: charmBoldFont, size:15})
+  page.drawText(text.dataScope, {x: 70, y: 315, font: charmBoldFont, size:15})
   //rodzaj pobieranych danych
-  drawer.drawWrapped(text.dataType, 100, 293, 400)
+  drawer.drawWrapped(text.dataType, 70, 293, 450)
   //podstawa wniosku powód wniosku
-  drawer.drawWrapped(text.dataReason, 100,195,400)
+  drawer.drawWrapped(text.dataReason, 70,195,450)
 
   return await pdfDoc.save();
 }

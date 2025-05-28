@@ -1,6 +1,5 @@
 import type { FormValues } from "./Home2.types";
 
-
 export const defaultValues: FormValues = {
   documentNumber: "",
   date: "",
@@ -19,6 +18,7 @@ export const defaultValues: FormValues = {
   dataScope: "",
   dataReason: "",
   serviceName: "",
+  serviceAddress: "",
   technicianFirstName: "",
   technicianLastName: "",
   workshopCardNumber: "",

@@ -8,6 +8,21 @@
     f. ok. auto wrap linii tekstu albo ograniczenie przy wprowadzaniu, żeby tekst nie uciekał za dokument
     g. ok. ograniczenie numeru vin do max 17 znaków 
     h. zrobić pokwitowanie
+    i. ograniczyć maksymalne ilości znaków w inputach (nazwa firmy)
+    j. ograniczyć długość nr karty warsztatowej
+    k. zabezpieczyć przed zapisem pustych kartek - to chyba ogarnia walidacja
+    l. dodać brakujące pole adresu we wniosku
+    m. po wciśnięciu entera nie może być pobierania wniosku albo przed pobraniem musi 
+        wyskoczyć komunikat czy pobrać blokowanie klawisza enter
+
+
+    Długości stringów:
+    nazwa serwisu 75 znaków na długości 450 pt
+
+    1 linia tekstu 75 znaków
+    2 linie tekstu 150 znaków
+    3 linie tekstu 225 znaków
+
 
 3.  dobudować przyciski, które generują odpowiednio:
     oryginał wniosek

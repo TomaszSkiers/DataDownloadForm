@@ -13,42 +13,63 @@ export function VehicleSection({ control, errors }: Props) {
         <Controller
           name="vehicleBrand"
           control={control}
-          rules={{ required: "To pole jest wymagane" }}
+          rules={{
+            required: "To pole jest wymagane",
+            maxLength: { value: 30, message: "Maksymalnie 30 znaków" },
+          }}
           render={({ field }) => (
             <TextField
               {...field}
               label="Marka pojazdu"
               error={!!errors.vehicleBrand}
-              helperText={errors.vehicleBrand?.message}
+              helperText={
+                errors.vehicleBrand?.message ??
+                `${field.value?.length || 0}/30 znaków`
+              }
               fullWidth
+              inputProps={{ maxLength: 30 }}
             />
           )}
         />
         <Controller
           name="vehicleModel"
           control={control}
-          rules={{ required: "To pole jest wymagane" }}
+          rules={{
+            required: "To pole jest wymagane",
+            maxLength: { value: 25, message: "Maksymalnie 25 znaków" },
+          }}
           render={({ field }) => (
             <TextField
               {...field}
               label="Model"
               error={!!errors.vehicleModel}
-              helperText={errors.vehicleModel?.message}
+              helperText={
+                errors.vehicleModel?.message ??
+                `${field.value?.length || 0}/25 znaków`
+              }
               fullWidth
+              inputProps={{ maxLength: 25 }}
             />
           )}
         />
         <Controller
           name="vehicleVRN"
           control={control}
-          rules={{ required: "To pole jest wymagane" }}
+          rules={{
+            required: "To pole jest wymagane",
+            maxLength: { value: 15, message: "Maksymalnie 15 znaków" },
+          }}
           render={({ field }) => (
             <TextField
               {...field}
               label="Numer VRN"
               error={!!errors.vehicleVRN}
-              helperText={errors.vehicleVRN?.message}
+              helperText={
+                errors.vehicleVRN?.message ??
+                `${field.value?.length || 0}/15 znaków`
+              }
               fullWidth
+              inputProps={{ maxLength: 15 }}
             />
           )}
         />
@@ -63,14 +84,12 @@ export function VehicleSection({ control, errors }: Props) {
             },
           }}
           render={({ field }) => {
-            // Liczymy znaki bez spacji na końcu (żeby nie wprowadzało w błąd)
             const currentLength = field.value?.trimEnd().length ?? 0;
             return (
               <TextField
                 {...field}
                 label="Numer VIN"
                 error={!!errors.vehicleVin}
-                // Helper text pokazuje komunikat walidacyjny lub licznik znaków
                 helperText={
                   errors.vehicleVin?.message
                     ? errors.vehicleVin.message
@@ -79,7 +98,6 @@ export function VehicleSection({ control, errors }: Props) {
                 fullWidth
                 inputProps={{ maxLength: 17 }}
                 onBlur={(e) => {
-                  // Zamiana na wielkie litery + dopełnienie spacjami do 17 znaków
                   const value = e.target.value.toUpperCase().padEnd(17, " ");
                   field.onChange(value);
                   field.onBlur();

@@ -6,8 +6,8 @@ import type { FormValues } from "../../../components/home2/Home2.types";
 const baseUrl = import.meta.env.BASE_URL;
 
 // funkcja do pobierania pliku tła z public
-const fetchBackgroundPdf = async () => {
-  const response = await fetch(`${baseUrl}wniosek.pdf`);
+const fetchBackgroundPdf = async (fileName: string) => {
+  const response = await fetch(`${baseUrl}${fileName}`);
   return await response.arrayBuffer();
 };
 
@@ -18,11 +18,25 @@ const fetchFont = async () => {
 };
 
 export const openPdfInNewTab = async (text: FormValues) => {
-  const backgroundArrayBuffer = await fetchBackgroundPdf();
+  let backgroundArrayBuffer = await fetchBackgroundPdf("wniosek.pdf");
   const charmBoldFont = await fetchFont();
+
   const page1 = await createPageOne(backgroundArrayBuffer, charmBoldFont, text);
-  const page2 = await createPageTwo();
-  const mergedPdf = await margePages([page1, page2]);
+  const page2 = await createPageOne(
+    backgroundArrayBuffer,
+    charmBoldFont,
+    text,
+    false
+  );
+  backgroundArrayBuffer = await fetchBackgroundPdf("pokwitowanie.pdf");
+  const page3 = await createPageTwo(backgroundArrayBuffer, charmBoldFont, text);
+  const page4 = await createPageTwo(
+    backgroundArrayBuffer,
+    charmBoldFont,
+    text,
+    false
+  );
+  const mergedPdf = await margePages([page1, page2, page3, page4]);
 
   const blob = new Blob([mergedPdf], { type: "application/pdf" });
   const url = URL.createObjectURL(blob);
