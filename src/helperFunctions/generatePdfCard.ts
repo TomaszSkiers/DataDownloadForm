@@ -1,19 +1,19 @@
 import { PDFDocument, rgb } from "pdf-lib";
 // @ts-expect-error - fontkit wymagany przez pdf-lib
 import * as fontkit from "fontkit";
-import type { FormValues } from "../../components/home2/Home2.types";
+import type { FormValues } from "../components/home2/Home2.types";
 
 export async function generatePdfCard(text: FormValues): Promise<string> {
   const baseUrl = import.meta.env.BASE_URL;
 
-  console.log(text.date)
+  console.log(text.date);
 
   // 1. Pobieranie istniejącego PDF i czcionek
   const [existingPdfResponse, regularFontResponse, boldFontResponse] =
     await Promise.all([
-      fetch(`${baseUrl}pokwitowanie.pdf`),
+      fetch(`${baseUrl}wniosek.pdf`),
       fetch(`${baseUrl}fonts/Roboto-Regular.ttf`),
-      fetch(`${baseUrl}fonts/Roboto-Bold.ttf`), 
+      fetch(`${baseUrl}fonts/Roboto-Bold.ttf`),
     ]);
 
   // 2. Konwersja na ArrayBuffer
@@ -101,8 +101,6 @@ export async function generatePdfCard(text: FormValues): Promise<string> {
   }
 
   //* koniec rysowania siatki ------------------------------
-
- 
 
   // Zapis i zwrócenie URL
   const pdfBytes = await pdfDoc.save();

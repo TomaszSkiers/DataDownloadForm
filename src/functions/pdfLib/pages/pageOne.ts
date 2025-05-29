@@ -66,6 +66,7 @@ export async function createPageOne(
   //nazwa firmy
   drawer.drawWrapped(text.companyName, 70, 588, 450);
   //todo brakuje adresu firmy
+  page.drawText(text.address, {x: 70, y: 564, font: charmBoldFont, size: 15})
   //marka tachografu
   drawer.drawWrapped(text.tachoBrand, 100, 475, 450);
   //numer tachografu

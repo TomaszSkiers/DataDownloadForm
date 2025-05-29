@@ -23,5 +23,9 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": [
+    "src/helperFunctions/generatePdfCard.ts",
+    "src/helperFunctions/useDownloadPdf.ts"
+  ]
 }
