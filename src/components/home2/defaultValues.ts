@@ -3,8 +3,7 @@ import type { FormValues } from "./Home2.types";
 export const defaultValues: FormValues = {
   documentNumber: "",
   date: "",
-  firstName: "",
-  lastName: "",
+  fullName: "",
   companyName: "",
   address: "",
   tachoBrand: "",

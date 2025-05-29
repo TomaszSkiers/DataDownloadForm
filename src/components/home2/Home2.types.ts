@@ -1,8 +1,7 @@
 export interface FormValues {
   documentNumber: string;
   date: string;
-  firstName: string;
-  lastName: string;
+  fullName: string;
   companyName: string;
   address: string;
   tachoBrand: string;

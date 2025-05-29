@@ -2,8 +2,10 @@ import { Controller } from "react-hook-form";
 import { Box, Stack, TextField, Typography } from "@mui/material";
 import type { Props } from "./interfaceProps.types";
 import { vehicleLabelSx, vehicleSectionSx } from "../Home2.styles";
+import { useState } from "react";
 
 export function VehicleSection({ control, errors }: Props) {
+  const [isVinFocused, setIsVinFocused] = useState(false);
   return (
     <Box sx={vehicleSectionSx}>
       <Typography component="span" sx={vehicleLabelSx}>
@@ -79,38 +81,49 @@ export function VehicleSection({ control, errors }: Props) {
           )}
         />
         <Controller
-          name="vehicleVin"
-          control={control}
-          rules={{
-            required: "To pole jest wymagane",
-            maxLength: {
-              value: 17,
-              message: "Maksymalnie 17 znaków",
-            },
-          }}
-          render={({ field }) => {
-            const currentLength = field.value?.trimEnd().length ?? 0;
-            return (
-              <TextField
-                {...field}
-                label="Numer VIN"
-                error={!!errors.vehicleVin}
-                helperText={
-                  errors.vehicleVin?.message
-                    ? errors.vehicleVin.message
-                    : `Wprowadź dokładnie 17 znaków VIN (${currentLength}/17)`
-                }
-                fullWidth
-                inputProps={{ maxLength: 17 }}
-                onBlur={(e) => {
-                  const value = e.target.value.toUpperCase().padEnd(17, " ");
-                  field.onChange(value);
-                  field.onBlur();
-                }}
-              />
-            );
-          }}
-        />
+      name="vehicleVin"
+      control={control}
+      rules={{
+        required: "To pole jest wymagane",
+        validate: (value) => {
+          const trimmedValue = value?.replace(/\s/g, '') || '';
+          return trimmedValue.length === 17 || "Wprowadź dokładnie 17 znaków VIN";
+        }
+      }}
+      render={({ field }) => {
+        // Usuwamy spacje przed liczeniem długości
+        const currentLength = field.value?.replace(/\s/g, '').length || 0;
+        
+        return (
+          <TextField
+            {...field}
+            label="Numer VIN"
+            error={!!errors.vehicleVin}
+            helperText={
+              // ZMIANA: Priorytet dla licznika podczas edycji
+              isVinFocused
+                ? `Wprowadź VIN (${currentLength}/17)`
+                : errors.vehicleVin?.message || 
+                  (currentLength === 17 ? "VIN poprawny" : " ")
+            }
+            fullWidth
+            inputProps={{ 
+              maxLength: 17,
+              style: { textTransform: 'uppercase' }
+            }}
+            onChange={(e) => {
+              const upperValue = e.target.value.toUpperCase().replace(/\s/g, '');
+              field.onChange(upperValue);
+            }}
+            onFocus={() => setIsVinFocused(true)}
+            onBlur={() => {
+              setIsVinFocused(false);
+              field.onBlur();
+            }}
+          />
+        );
+      }}
+    />
       </Stack>
     </Box>
   );

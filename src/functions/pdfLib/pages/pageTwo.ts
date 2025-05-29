@@ -142,7 +142,7 @@ export async function createPageTwo(
   //adres fimry
   drawer.drawWrapped(text.address, 70, 302, 450);
   //imię i nazwisko
-  drawer.drawWrapped(`${text.firstName}  ${text.lastName}`, 70, 270, 450);
+  drawer.drawWrapped(text.fullName, 70, 270, 450);
   //podstawa wniosku powód wniosku
   drawer.drawWrapped(text.dataReason, 70, 218, 450);
   return await pdfDoc.save();

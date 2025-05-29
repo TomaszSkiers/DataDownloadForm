@@ -62,10 +62,10 @@ export async function createPageOne(
   page.drawText(month, { x: 140, y: 720, font: charmBoldFont, size: 15 });
   page.drawText(day, { x: 100, y: 720, font: charmBoldFont, size: 15 });
   //imię i nazwisko
-  drawer.drawWrapped(`${text.firstName}  ${text.lastName}`, 70, 661, 450);
+  drawer.drawWrapped(text.fullName, 70, 661, 450);
   //nazwa firmy
   drawer.drawWrapped(text.companyName, 70, 588, 450);
-  //todo brakuje adresu firmy
+  //adres firmy
   page.drawText(text.address, {x: 70, y: 564, font: charmBoldFont, size: 15})
   //marka tachografu
   drawer.drawWrapped(text.tachoBrand, 100, 475, 450);
