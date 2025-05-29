@@ -50,6 +50,11 @@ export function TahographSection({ control, errors }: Props) {
               }
               fullWidth
               inputProps={{ maxLength: 75 }}
+              onChange={(e) => {
+                // Zamień małe litery na wielkie
+                const upperValue = e.target.value.toUpperCase();
+                field.onChange(upperValue);
+              }}
             />
           )}
         />
@@ -71,6 +76,11 @@ export function TahographSection({ control, errors }: Props) {
               }
               fullWidth
               inputProps={{ maxLength: 75 }}
+              onChange={(e) => {
+                // Zamień małe litery na wielkie
+                const upperValue = e.target.value.toUpperCase();
+                field.onChange(upperValue);
+              }}
             />
           )}
         />

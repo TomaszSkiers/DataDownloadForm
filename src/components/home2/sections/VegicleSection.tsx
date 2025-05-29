@@ -70,6 +70,11 @@ export function VehicleSection({ control, errors }: Props) {
               }
               fullWidth
               inputProps={{ maxLength: 15 }}
+              onChange={(e) => {
+                // Zamień małe litery na wielkie
+                const upperValue = e.target.value.toUpperCase();
+                field.onChange(upperValue);
+              }}
             />
           )}
         />
