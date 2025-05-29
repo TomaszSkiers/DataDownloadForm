@@ -28,6 +28,7 @@ export function TahographSection({ control, errors }: Props) {
               }
               fullWidth
               inputProps={{ maxLength: 75 }}
+              
             />
           )}
         />

@@ -4,7 +4,6 @@ import type { FormValues } from "./Home2.types";
 import { formBoxSx } from "./Home2.styles";
 import { saveToFile } from "../../functions/saveLoadFromComputer/saveToFile";
 import { useRef } from "react";
-// import { readFileAsJson } from "../../functions/saveLoadFromComputer/readFileAsJson";
 import { defaultValues } from "./defaultValues";
 import { exportPdf } from "../../functions/pdf/expPdf";
 import { DocumentDataSection } from "./sections/DocumentDataSection";
@@ -14,9 +13,6 @@ import { TahographSection } from "./sections/TagographSection";
 import { VehicleSection } from "./sections/VegicleSection";
 import { DataInfoSection } from "./sections/DataInfoSection";
 import { ServiceSection } from "./sections/ServiceSection";
-// import { generatePdf } from "../../functions/pdfLib/generatePdf";
-// import { generatePdfCard } from "../../helperFunctions/generatePdfCard";
-// import { handleDownload } from "../../functions/pdfLib/pages/useDownloadPdf";
 import { openPdfInNewTab } from "../../functions/pdfLib/pages/openPdfInNewTab";
 import { createHandleFileChange } from "../../functions/saveLoadFromComputer/handleFileChange";
 
@@ -33,35 +29,15 @@ export default function Home2() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-
-  //todo to usuwam i importuję funkcję potem wywołuję z przycisku w onSubmit()
-  const onSubmit = (data: FormValues) => {
-    console.log("Dane formularza", data); //debugger
-    saveToFile(data); //* w data mogę przekazać nazwę pliku
-  };
-
-
-  //todo to trzeba wyodrębnić do oddzielnego pliku
-  const  handleFileChange = createHandleFileChange<FormValues>(
-    reset, defaultValues,fileInputRef 
-  )
-  // const handleFileChange = async (
-  //   event: React.ChangeEvent<HTMLInputElement>
-  // ) => {
-  //   const file = event.target.files?.[0];
-  //   if (file) {
-  //     try {
-  //       const data = await readFileAsJson<Partial<FormValues>>(file);
-  //       reset({ ...defaultValues, ...data });
-  //     } catch (error) {
-  //       alert("Błąd odczytu pliku: " + (error as Error).message);
-  //     }
-  //   }
-  //   if (fileInputRef.current) fileInputRef.current.value = "";
-  // };
+  //pobranie pliku .json i załadowanie wartości do formularza
+  const handleFileChange = createHandleFileChange<FormValues>(
+    reset,
+    defaultValues,
+    fileInputRef
+  );
 
   return (
-    <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={formBoxSx}>
+    <Box component="form" sx={formBoxSx}>
       <DocumentDataSection control={control} errors={errors} />
       <PersonSection control={control} errors={errors} />
       <CompanySection control={control} errors={errors} />
@@ -71,9 +47,15 @@ export default function Home2() {
       <ServiceSection control={control} errors={errors} />
 
       <Stack direction="row" spacing={2}>
-        <Button type="submit" variant="outlined" fullWidth color="secondary">
+        <Button
+          variant="outlined"
+          fullWidth
+          color="secondary"
+          onClick={handleSubmit((data) => saveToFile(data))}
+        >
           Zapisz na dysk
         </Button>
+
         <Button variant="outlined" component="label" fullWidth>
           Wczytaj z pliku
           <input
@@ -84,6 +66,7 @@ export default function Home2() {
             ref={fileInputRef}
           />
         </Button>
+
         <Button
           variant="outlined"
           fullWidth
