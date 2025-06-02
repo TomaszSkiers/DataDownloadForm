@@ -66,7 +66,7 @@ export function getWniosekContent(oryginalCopy: string, data: FormValues): Conte
 
     //Nowa linia: imię i nazwisko właściciela lub osoby go reprezentującej
     {
-      text: [{ text: data.firstName + ' ', bold: true }, {text: data.lastName, bold: true}],
+      text: [{ text: data.fullName + ' ', bold: true }],
       alignment: "left",
       margin: [50, 0, 0, 10],
     },

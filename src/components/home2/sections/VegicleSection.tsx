@@ -81,49 +81,57 @@ export function VehicleSection({ control, errors }: Props) {
           )}
         />
         <Controller
-      name="vehicleVin"
-      control={control}
-      rules={{
-        required: "To pole jest wymagane",
-        validate: (value) => {
-          const trimmedValue = value?.replace(/\s/g, '') || '';
-          return trimmedValue.length === 17 || "Wprowadź dokładnie 17 znaków VIN";
-        }
-      }}
-      render={({ field }) => {
-        // Usuwamy spacje przed liczeniem długości
-        const currentLength = field.value?.replace(/\s/g, '').length || 0;
-        
-        return (
-          <TextField
-            {...field}
-            label="Numer VIN"
-            error={!!errors.vehicleVin}
-            helperText={
-              // ZMIANA: Priorytet dla licznika podczas edycji
-              isVinFocused
-                ? `Wprowadź VIN (${currentLength}/17)`
-                : errors.vehicleVin?.message || 
-                  (currentLength === 17 ? "VIN poprawny" : " ")
-            }
-            fullWidth
-            inputProps={{ 
-              maxLength: 17,
-              style: { textTransform: 'uppercase' }
-            }}
-            onChange={(e) => {
-              const upperValue = e.target.value.toUpperCase().replace(/\s/g, '');
-              field.onChange(upperValue);
-            }}
-            onFocus={() => setIsVinFocused(true)}
-            onBlur={() => {
-              setIsVinFocused(false);
-              field.onBlur();
-            }}
-          />
-        );
-      }}
-    />
+          name="vehicleVin"
+          control={control}
+          rules={{
+            required: "To pole jest wymagane",
+            validate: (value) => {
+              const cleanedValue = value?.replace(/\s/g, "") || "";
+              if (cleanedValue.length > 17) {
+                return "VIN nie może mieć więcej niż 17 znaków";
+              }
+              return true; // Walidacja passed
+            },
+          }}
+          render={({ field }) => {
+            const cleanedValue = field.value?.replace(/\s/g, "") || "";
+            const currentLength = cleanedValue.length;
+
+            return (
+              <TextField
+                {...field}
+                label="Numer VIN"
+                error={!!errors.vehicleVin}
+                helperText={
+                  isVinFocused
+                    ? `Wprowadź VIN (${currentLength}/17)`
+                    : errors.vehicleVin?.message ||
+                      (currentLength > 0 && currentLength < 17
+                        ? `VIN jest za krótki (${currentLength}/17)`
+                        : currentLength === 17
+                        ? "VIN poprawny"
+                        : " ")
+                }
+                fullWidth
+                inputProps={{
+                  maxLength: 17,
+                  style: { textTransform: "uppercase" },
+                }}
+                onChange={(e) => {
+                  const upperValue = e.target.value
+                    .toUpperCase()
+                    .replace(/\s/g, "");
+                  field.onChange(upperValue);
+                }}
+                onFocus={() => setIsVinFocused(true)}
+                onBlur={() => {
+                  setIsVinFocused(false);
+                  field.onBlur();
+                }}
+              />
+            );
+          }}
+        />
       </Stack>
     </Box>
   );

@@ -1,3 +1,15 @@
+nie walidować numeru
+
+
+->  ok. nr seryjny tachografu trzeba ograniczyć do 35 znaków i tak samo rok produkcji
+
+->  zrobić sekcję ustawień - co może być w takiej sekcji:
+    a. dane serwisu : nazwa, adres, tachnicy i ich numery kart warsztatowych
+    b. ustawienia numeracji dokumnetu: np: dokument może sam nadawać kolejny numer 
+    b. ustawienia wizualne: motyw light, dark, 
+    c. ustawienia fonta do drukowania: lato, roboto, itp.j
+
+
 
 2. poprawić wizualnie drukowanie, żeby wydruki były bardziej wizualnie fajne
 2   a. ok. podzielić na pliki -> to już mam
@@ -9,12 +21,12 @@
     g. ok. ograniczenie numeru vin do max 17 znaków 
     h. ok. zrobić pokwitowanie
     i. ok. ograniczyć maksymalne ilości znaków w inputach (nazwa firmy)
-    j. ograniczyć długość nr karty warsztatowej
-    k. zabezpieczyć przed zapisem pustych kartek - to chyba ogarnia walidacja
-    l. dodać brakujące pole adresu we wniosku
-    m. po wciśnięciu entera nie może być pobierania wniosku albo przed pobraniem musi 
+    j. ok. ograniczyć długość nr karty warsztatowej
+    k. ok. zabezpieczyć przed zapisem pustych kartek - to chyba ogarnia walidacja
+    l. ok. dodać brakujące pole adresu we wniosku
+    m. ok. po wciśnięciu entera nie może być pobierania wniosku albo przed pobraniem musi 
         wyskoczyć komunikat czy pobrać blokowanie klawisza enter
-    n. literówka w service section
+    n. 0k. literówka w service section
 
     Długości stringów:
     nazwa serwisu 75 znaków na długości 450 pt

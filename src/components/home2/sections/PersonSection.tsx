@@ -1,13 +1,16 @@
 import { Controller } from "react-hook-form";
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography, useMediaQuery,useTheme } from "@mui/material";
 import type { Props } from "./interfaceProps.types";
 import { personLabelSx, personSectionSx } from "../Home2.styles";
 
+
 export function PersonSection({ control, errors }: Props) {
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
   return (
     <Box sx={personSectionSx}>
       <Typography component="span" sx={personLabelSx}>
-        Imię i nazwisko właściciela / osoby reprezentującej
+        {isMobile ? "Właściciel / osoba reprezentująca" : "Imię i nazwisko właściciela / osoby reprezentującej"}
       </Typography>
 
       {/* Imię */}
@@ -23,6 +26,7 @@ export function PersonSection({ control, errors }: Props) {
         }}
         render={({ field }) => (
           <TextField
+            label="Imię i nazwisko"
             {...field}
             error={!!errors.fullName}
             helperText={

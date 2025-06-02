@@ -37,7 +37,7 @@ export function TahographSection({ control, errors }: Props) {
           control={control}
           rules={{
             required: "To pole jest wymagane",
-            maxLength: { value: 75, message: "Maksymalnie 75 znaków" },
+            maxLength: { value: 20, message: "Maksymalnie 20 znaków" },
           }}
           render={({ field }) => (
             <TextField
@@ -46,10 +46,10 @@ export function TahographSection({ control, errors }: Props) {
               error={!!errors.tachoSerial}
               helperText={
                 errors.tachoSerial?.message ??
-                `${field.value?.length || 0}/75 znaków`
+                `${field.value?.length || 0}/20 znaków`
               }
               fullWidth
-              inputProps={{ maxLength: 75 }}
+              inputProps={{ maxLength: 20 }}
               onChange={(e) => {
                 // Zamień małe litery na wielkie
                 const upperValue = e.target.value.toUpperCase();
@@ -63,7 +63,7 @@ export function TahographSection({ control, errors }: Props) {
           control={control}
           rules={{
             required: "To pole jest wymagane",
-            maxLength: { value: 75, message: "Maksymalnie 75 znaków" },
+            maxLength: { value: 17, message: "Maksymalnie 17 znaków" },
           }}
           render={({ field }) => (
             <TextField
@@ -72,10 +72,10 @@ export function TahographSection({ control, errors }: Props) {
               error={!!errors.tachoYear}
               helperText={
                 errors.tachoYear?.message ??
-                `${field.value?.length || 0}/75 znaków`
+                `${field.value?.length || 0}/17 znaków`
               }
               fullWidth
-              inputProps={{ maxLength: 75 }}
+              inputProps={{ maxLength: 17 }}
               onChange={(e) => {
                 // Zamień małe litery na wielkie
                 const upperValue = e.target.value.toUpperCase();

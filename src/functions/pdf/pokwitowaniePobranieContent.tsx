@@ -156,8 +156,7 @@ export function getPokwitowaniePrzekazaniaDanychContent(
     },
     //Nowa linia: osoba która pobiera pokwitowanie
     {
-      text: [{ text: data.firstName + ' ', bold: true },
-        {text: data.lastName, bold: true}
+      text: [{ text: data.fullName, bold: true }
       ],
       margin: [50, 0, 0, 20],
     },

@@ -29,11 +29,6 @@ export function DataInfoSection({ control, errors }: Props) {
               fullWidth
               inputProps={{ maxLength: 255 }}
               multiline
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                }
-              }}
             />
           )}
         />
@@ -55,7 +50,6 @@ export function DataInfoSection({ control, errors }: Props) {
               }
               fullWidth
               inputProps={{ maxLength: 75 }}
-              
             />
           )}
         />
@@ -78,11 +72,6 @@ export function DataInfoSection({ control, errors }: Props) {
               fullWidth
               inputProps={{ maxLength: 225 }}
               multiline
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                }
-              }}
             />
           )}
         />
