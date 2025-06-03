@@ -55,3 +55,20 @@ nie walidować numeru
 
 3. zastanowić się nad koncepcją całości aplikacji, co jeszcze można dodać żeby zbudować pomocną apkę, 
 
+problem -> mam błąd z logiką, nie umiem sobie poradzić z logiką tego formularza i przekazywaniam 'control'
+przekazwyanie mam w głównym formularzu do podformularzy 
+zapisywanie już mi działa ale jeszcze przycisk save zapisze dane z formularza nadrzędnego a tam są wczytane inne dane 
+i co z tym zrobić 
+
+najprościej przy zapisie ponowny odczyt z locala i co -> zapisywane są dane z formularza więć obiekt data 
+trzeba sobie porównać i jeśli są inne to zaktualizować -> aktualizacje może wykonać tylko dodawanie technika wciśnięciu
+
+wczytać jeszcze raz localStorage i zaktualizować dane formularza
+
+OSTATECZNE ROZWIĄZANIE FORMULARZA "USTAWIENIA"
+
+Tworzę formularz nadrzędny <Settings /> a w nim podformulerze
+<ServiceInfo /> tu główny stan formularza i useFieldArray do operacji na tablicy techników
+<DisplayTechnicians technicians={ field } /> tu przekażę listę techników
+<addTechnician onAdd={ append() j} /> tu przekażę funkcję do dodawania z useFieldArray i utworzę 
+    lokalny useForm do obsługi dwóch pól: imię technika i number

@@ -62,36 +62,51 @@ export function Technicians({ editSettings }: { editSettings: boolean }) {
       </Typography>
 
       {/* Formularz do dodawania nowego technika */}
-      <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-        <TextField
-          fullWidth
-          label="Imię i nazwisko"
-          value={newTech.fullName}
-          onChange={(e) => setNewTech({ ...newTech, fullName: e.target.value })}
-          disabled={!editSettings}
-        />
-        <TextField
-          fullWidth
-          label="Nr karty warsztatowej"
-          value={newTech.cardNumber}
-          onChange={(e) =>
-            setNewTech({ ...newTech, cardNumber: e.target.value })
-          }
-          disabled={!editSettings}
-        />
-        <IconButton
-          color="primary"
-          disabled={!editSettings}
-          onClick={handleAddTechnician}
-          sx={{
-            width: 40,
-            height: 40,
-            border: "1px solid",
-          }}
-        >
-          <AddIcon />
-        </IconButton>
-      </Box>
+    <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+      <TextField
+        fullWidth
+        label="Imię i nazwisko"
+        value={newTech.fullName}
+        onChange={(e) => {
+        const value = e.target.value.slice(0, 40);
+        setNewTech({ ...newTech, fullName: value });
+        }}
+        disabled={!editSettings}
+        inputProps={{ maxLength: 40 }}
+        helperText={`${newTech.fullName.length}/40`}
+          />
+          <TextField 
+        fullWidth
+        label="Nr karty warsztatowej"
+        value={newTech.cardNumber}
+        onChange={(e) => {
+          const value = e.target.value.slice(0, 16).toUpperCase();
+          setNewTech({ ...newTech, cardNumber: value });
+        }}
+        disabled={!editSettings}
+        inputProps={{ maxLength: 16 }}
+        helperText={
+          newTech.cardNumber.length === 0
+            ? "Wprowadź 16 znaków"
+            : newTech.cardNumber.length !== 16
+            ? "Pole musi zawierać dokładnie 16 znaków"
+            : "16/16"
+        }
+        error={newTech.cardNumber.length !== 16 && newTech.cardNumber.length > 0}
+          />
+      <IconButton
+        color="primary"
+        disabled={!editSettings}
+        onClick={handleAddTechnician}
+        sx={{
+        width: 40,
+        height: 40,
+        border: "1px solid",
+        }}
+      >
+        <AddIcon />
+      </IconButton>
+    </Box>
 
       {/* Lista techników lub informacja o braku */}
       <Box sx={{ width: "100%", mt: 2 }}>
@@ -117,8 +132,22 @@ export function Technicians({ editSettings }: { editSettings: boolean }) {
                 borderColor: "grey.300",
               }}
             >
-              <Typography sx={{ flex: 1 }}>{tech.fullName}</Typography>
-              <Typography sx={{ flex: 1 }}>{tech.cardNumber}</Typography>
+              <Typography
+                sx={{
+                  flex: 1,
+                  color: editSettings ? "text.main" : "text.disabled",
+                }}
+              >
+                {tech.fullName}
+              </Typography>
+              <Typography
+                sx={{
+                  flex: 1,
+                  color: editSettings ? "text.main" : "text.disabled",
+                }}
+              >
+                {tech.cardNumber}
+              </Typography>
               <IconButton
                 color="error"
                 onClick={() => handleRemoveTechnician(index)}

@@ -16,6 +16,9 @@ import { ServiceSection } from "./sections/ServiceSection";
 import { openPdfInNewTab } from "../../functions/pdfLib/pages/openPdfInNewTab";
 import { createHandleFileChange } from "../../functions/saveLoadFromComputer/handleFileChange";
 
+//todo zrobić auto zapis do localStorage po każdej zmianie w formularzu
+//żeby przejście z jednej sekcji do drugiej nie powodowało utraty danych
+
 export default function Home2() {
   const {
     handleSubmit,

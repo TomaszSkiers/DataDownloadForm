@@ -6,7 +6,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import { useForm, Controller } from "react-hook-form";
 import { settingsBoxSx } from "./Settings.styles";
-import { Technicians } from "./Technicians";
+// import { Technicians } from "./Technicians";
+import { Technicians2 } from "./Technicans2";
 
 type Technician = {
   fullName: string;
@@ -19,7 +20,6 @@ type FormData = {
   technicians: Technician[];
 };
 
-const MAX_LENGTH = 50;
 const STORAGE_KEY = "serviceSettings";
 
 const Settings2: React.FC = () => {
@@ -48,9 +48,13 @@ const Settings2: React.FC = () => {
 
   const onSubmit = (data: FormData) => {
     try {
+      const newData = localStorage.getItem(STORAGE_KEY) 
+      const parsedData = newData ? JSON.parse(newData) : {};
+      data.technicians = parsedData.technicians || [];
+
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       console.log("Dane zapisane:", data);
-      alert("Ustawienia zostały zapisane!");
+      setEditSettings(false);
     } catch (error) {
       console.error("Błąd zapisu do localStorage:", error);
       alert("Wystąpił błąd podczas zapisywania ustawień");
@@ -58,7 +62,7 @@ const Settings2: React.FC = () => {
   };
 
   return (
-    <Box sx={settingsBoxSx} component="form" onSubmit={handleSubmit(onSubmit)}>
+    <Box sx={settingsBoxSx} component="form"  onSubmit={handleSubmit(onSubmit)}>
       <Box
         sx={{
           display: "flex",
@@ -99,13 +103,23 @@ const Settings2: React.FC = () => {
         control={control}
         rules={{
           required: "To pole jest wymagane",
+          maxLength: {
+            value: 75,
+            message: "Maksymalnie 75 znaków",
+          },
         }}
         render={({ field }) => (
           <TextField
             {...field}
             label="Nazwa serwisu"
+            error={!!errors.serviceName}
+            helperText={
+              errors.serviceName?.message ??
+              `${field.value?.length || 0}/75 znaków`
+            }
             fullWidth
             disabled={!editSttings}
+            inputProps={{ maxLength: 75 }}
           />
         )}
       />
@@ -116,8 +130,8 @@ const Settings2: React.FC = () => {
         rules={{
           required: "To pole jest wymagane",
           maxLength: {
-            value: MAX_LENGTH,
-            message: `Maksymalnie ${MAX_LENGTH} znaków`,
+            value: 150,
+            message: "Maksymalnie 150 znaków",
           },
         }}
         render={({ field }) => (
@@ -127,15 +141,23 @@ const Settings2: React.FC = () => {
             error={!!errors.serviceAddress}
             helperText={
               errors.serviceAddress?.message ??
-              `${field.value?.length || 0}/${MAX_LENGTH} znaków`
+              `${field.value?.length || 0}/150 znaków`
             }
             fullWidth
             disabled={!editSttings}
+            inputProps={{ maxLength: 150 }}
+            multiline
+            minRows={3}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+              }
+            }}
           />
         )}
       />
 
-      <Technicians editSettings={editSttings} />
+      <Technicians2 editSttings={editSttings} />
     </Box>
   );
 };
