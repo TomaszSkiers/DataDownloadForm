@@ -1,9 +1,11 @@
 import React from "react";
 import { Box, TextField, Button } from "@mui/material";
-import { useForm, useWatch, type Control } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CharCounter } from "../../commonComponents/CharCounter";
 
+// Schemat walidacji Zod dla formularza dodawania technika
 const addTechnicianSchema = z.object({
   fullName: z
     .string()
@@ -21,20 +23,6 @@ type AddTechnicianFormProps = {
   onAdd: (technician: AddTechnicianForm) => void;
   editSettings?: boolean;
 };
-
-// Oddzielny komponent licznika znaków
-function CharCounter({
-  control,
-  name,
-  max,
-}: {
-  control: Control<AddTechnicianForm>;
-  name: keyof AddTechnicianForm;
-  max: number;
-}) {
-  const value = useWatch({ control, name }) || "";
-  return <>{`${value.length}/${max}`}</>;
-}
 
 const AddTechnicianComponent = ({
   onAdd,
@@ -65,69 +53,66 @@ const AddTechnicianComponent = ({
         border: (theme) => `1px solid ${theme.palette.divider}`,
         p: 2,
         borderRadius: 1,
+        display: "flex",
+        flexDirection: "column",
       }}
     >
-      <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-        <TextField
-          label="Imię i nazwisko"
-          variant="outlined"
-          fullWidth
-          disabled={!editSettings}
-          {...register("fullName")}
-          error={!!errors.fullName}
-          helperText={
-            <span
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                minHeight: 24,
-                width: "100%",
-              }}
-            >
-              <span style={{ color: errors.fullName ? "red" : "inherit" }}>
-                {errors.fullName?.message ?? ""}
-              </span>
-              <CharCounter control={control} name="fullName" max={40} />
+      <TextField
+        label="Imię i nazwisko"
+        variant="outlined"
+        fullWidth
+        disabled={!editSettings}
+        {...register("fullName")}
+        error={!!errors.fullName}
+        helperText={
+          <span
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              minHeight: 24,
+              width: "100%",
+            }}
+          >
+            <span style={{ color: errors.fullName ? "red" : "inherit" }}>
+              {errors.fullName?.message ?? ""}
             </span>
-          }
-          inputProps={{ maxLength: 40 }}
-        />
-        <TextField
-          label="Numer telefonu"
-          variant="outlined"
-          fullWidth
-          disabled={!editSettings}
-          {...register("number")}
-          error={!!errors.number}
-          helperText={
-            <span
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                minHeight: 24,
-                width: "100%",
-              }}
-            >
-              <span style={{ color: errors.number ? "red" : "inherit" }}>
-                {errors.number?.message ?? ""}
-              </span>
-              <CharCounter control={control} name="number" max={16} />
+            <CharCounter control={control} name="fullName" max={40} />
+          </span>
+        }
+        inputProps={{ maxLength: 40 }}
+      />
+      <TextField
+        label="Nr karty warsztatowej"
+        variant="outlined"
+        fullWidth
+        disabled={!editSettings}
+        {...register("number")}
+        error={!!errors.number}
+        helperText={
+          <span
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              minHeight: 24,
+              width: "100%",
+            }}
+          >
+            <span style={{ color: errors.number ? "red" : "inherit" }}>
+              {errors.number?.message ?? ""}
             </span>
-          }
-          inputProps={{ maxLength: 16 }}
-        />
-      </Box>
-
-      <Box sx={{ mt: 2 }}>
-        <Button
-          variant="outlined"
-          color="primary"
-          type="submit"
-          disabled={!editSettings}
-        >
-          Dodaj technika
-        </Button>
-      </Box>
+            <CharCounter control={control} name="number" max={16} />
+          </span>
+        }
+        inputProps={{ maxLength: 16 }}
+      />
+      <Button
+        variant="outlined"
+        color="primary"
+        type="submit"
+        disabled={!editSettings}
+      >
+        Dodaj technika
+      </Button>
     </Box>
   );
 };
