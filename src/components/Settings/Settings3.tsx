@@ -6,15 +6,15 @@ import LockIcon from "@mui/icons-material/Lock";
 import EditIcon from "@mui/icons-material/Edit";
 import { settingsBoxSx } from "./Settings.styles";
 import { useFieldArray, useForm } from "react-hook-form";
-import type { FormData } from "./components/types";
 import { ServiceData } from "./components/ServiceData";
 import { AddTechnician } from "./components/AddTechnician";
 import { DisplayTechnicians } from "./components/DisplayTechnicians";
+import type { FormData } from "./components/types";
 
 export const Settings3: React.FC = () => {
   const [editSettings, setEditSettings] = React.useState(false);
 
-  const { control, handleSubmit, reset } = useForm<FormData>({
+  const { control, handleSubmit, reset} = useForm<FormData>({
     defaultValues: {
       serviceName: "",
       serviceAddress: "",
@@ -27,18 +27,19 @@ export const Settings3: React.FC = () => {
     name: "technicians",
   });
 
-  // Wczytaj dane z localStorage i ustaw je w formularzu po załadowaniu komponentu
+  // Odczyt z localStorage przy starcie
   useEffect(() => {
     const stored = localStorage.getItem("serviceSettings");
     if (stored) {
       const parsed = JSON.parse(stored);
       reset(parsed);
-      replace(parsed.technicians); // ustawia tablicę technicians
+      replace(parsed.technicians);
     }
   }, [reset, replace]);
 
+  // Zapis do localStorage po zapisie ustawień
   const onSubmit = (data: FormData) => {
-    console.log(data);
+    localStorage.setItem("serviceSettings", JSON.stringify(data));
     setEditSettings(false);
   };
 
@@ -56,7 +57,7 @@ export const Settings3: React.FC = () => {
           gutterBottom
           sx={{ display: "flex", alignItems: "center", gap: 1 }}
         >
-          <SettingsIcon /> ustawienia
+          <SettingsIcon /> Ustawienia
         </Typography>
 
         <Box sx={{ display: "flex", gap: 1 }}>
@@ -78,7 +79,7 @@ export const Settings3: React.FC = () => {
           </IconButton>
         </Box>
       </Box>
-      <ServiceData control={control}  />
+      <ServiceData control={control} editSettings={editSettings} />
       <DisplayTechnicians
         technicians={fields}
         onRemove={remove}

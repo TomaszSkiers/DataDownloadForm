@@ -75,7 +75,6 @@ const DisplayTechniciansComponent = ({
         variant="h6"
         sx={{
           mb: 2,
-          fontWeight: 600,
           color: !editSettings ? inactiveColor : undefined,
         }}
       >

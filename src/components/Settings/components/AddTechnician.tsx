@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, TextField, Button } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -43,6 +43,13 @@ const AddTechnicianComponent = ({
     onAdd(data);
     reset();
   };
+
+  // Resetuj formularz, gdy edycja zostaje wyłączona
+  useEffect(() => {
+    if (!editSettings) {
+      reset();
+    }
+  }, [editSettings, reset]);
 
   return (
     <Box
