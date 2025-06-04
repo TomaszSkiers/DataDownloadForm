@@ -8,22 +8,11 @@ import { settingsBoxSx } from "./Settings.styles";
 import { useFieldArray, useForm } from "react-hook-form";
 import type { FormData } from "./components/types";
 import { ServiceData } from "./components/ServiceData";
-import { AddTechnician} from "./components/AddTechnician";
+import { AddTechnician } from "./components/AddTechnician";
 import { DisplayTechnicians } from "./components/DisplayTechnicians";
 
-// const example = {
-//   serviceName: "Przykładowa Usługa",
-//   serviceAddress: "Przykładowy Adres 123",
-//   technicians: [
-//     { fullName: "Jan Kowalski", number: "123456789" },
-//     { fullName: "Anna Nowak", number: "987654321" },
-//   ],
-// }
-
-// localStorage.setItem("serviceSettings", JSON.stringify(example));
-
 export const Settings3: React.FC = () => {
-  const [editSttings, setEditSettings] = React.useState(false);
+  const [editSettings, setEditSettings] = React.useState(false);
 
   const { control, handleSubmit, reset } = useForm<FormData>({
     defaultValues: {
@@ -33,7 +22,7 @@ export const Settings3: React.FC = () => {
     },
   });
 
-  const { fields, replace, append } = useFieldArray({
+  const { fields, replace, append, remove } = useFieldArray({
     control,
     name: "technicians",
   });
@@ -50,10 +39,9 @@ export const Settings3: React.FC = () => {
 
   const onSubmit = (data: FormData) => {
     console.log(data);
-    setEditSettings(!editSttings);
+    setEditSettings(false);
   };
 
-  
   return (
     <Box sx={settingsBoxSx}>
       <Box
@@ -74,7 +62,7 @@ export const Settings3: React.FC = () => {
         <Box sx={{ display: "flex", gap: 1 }}>
           <IconButton
             color="secondary"
-            disabled={!editSttings}
+            disabled={!editSettings}
             sx={{ border: "1px solid", width: 40, height: 40 }}
             onClick={handleSubmit(onSubmit)}
           >
@@ -83,16 +71,20 @@ export const Settings3: React.FC = () => {
 
           <IconButton
             color="primary"
-            onClick={() => setEditSettings(!editSttings)}
+            onClick={() => setEditSettings((prev) => !prev)}
             sx={{ border: "1px solid", width: 40, height: 40 }}
           >
-            {editSttings ? <LockIcon /> : <EditIcon />}
+            {editSettings ? <LockIcon /> : <EditIcon />}
           </IconButton>
         </Box>
       </Box>
-      <ServiceData control={control} />  
-      <DisplayTechnicians technicians={fields} />
-      <AddTechnician onAdd={append} editSettings={editSttings} />
+      <ServiceData control={control}  />
+      <DisplayTechnicians
+        technicians={fields}
+        onRemove={remove}
+        editSettings={editSettings}
+      />
+      <AddTechnician onAdd={append} editSettings={editSettings} />
     </Box>
   );
 };
