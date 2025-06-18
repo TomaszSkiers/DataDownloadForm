@@ -5,7 +5,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CharCounter } from "../../commonComponents/CharCounter";
 
-// Schemat walidacji Zod dla formularza dodawania technika
 const addTechnicianSchema = z.object({
   fullName: z
     .string()

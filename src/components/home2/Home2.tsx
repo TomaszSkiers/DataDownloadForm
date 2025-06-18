@@ -81,7 +81,7 @@ export default function Home2() {
       <DocumentDataSection control={control} errors={errors} />
       <PersonSection control={control} errors={errors} />
       <CompanySection control={control} errors={errors} />
-      <TahographSection control={control} errors={errors} />
+      <TahographSection control={control} errors={errors} setValue={setValue} />
       <VehicleSection control={control} errors={errors} />
       <DataInfoSection control={control} errors={errors} />
       <ServiceSection  control={control} errors={errors} setValue={setValue}/>

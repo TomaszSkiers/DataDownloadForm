@@ -10,21 +10,39 @@ import { ServiceData } from "./components/ServiceData";
 import { AddTechnician } from "./components/AddTechnician";
 import { DisplayTechnicians } from "./components/DisplayTechnicians";
 import type { FormData } from "./components/types";
+import AddManufacturer from "./components/AddManufacturer";
+import { DisplayManufacturers } from "./components/DisplayManufacturers";
 
 export const Settings3: React.FC = () => {
   const [editSettings, setEditSettings] = React.useState(false);
 
-  const { control, handleSubmit, reset} = useForm<FormData>({
+  const { control, handleSubmit, reset } = useForm<FormData>({
     defaultValues: {
       serviceName: "",
       serviceAddress: "",
       technicians: [],
+      manufacturers: [],
     },
   });
 
-  const { fields, replace, append, remove } = useFieldArray({
+  const {
+    fields: technicianFields,
+    replace: replaceTechnicians,
+    append: appendTechnician,
+    remove: removeTechnician,
+  } = useFieldArray({
     control,
     name: "technicians",
+  });
+
+  const {
+    fields: manufacturerFields,
+    // replace: replaceManufacturers,
+    append: appendManufacturer,
+    remove: removeManufacturer,
+  } = useFieldArray({
+    control,
+    name: "manufacturers",
   });
 
   // Odczyt z localStorage przy starcie
@@ -33,9 +51,9 @@ export const Settings3: React.FC = () => {
     if (stored) {
       const parsed = JSON.parse(stored);
       reset(parsed);
-      replace(parsed.technicians);
+      replaceTechnicians(parsed.technicians);
     }
-  }, [reset, replace]);
+  }, [reset, replaceTechnicians]);
 
   // Zapis do localStorage po zapisie ustawień
   const onSubmit = (data: FormData) => {
@@ -81,11 +99,17 @@ export const Settings3: React.FC = () => {
       </Box>
       <ServiceData control={control} editSettings={editSettings} />
       <DisplayTechnicians
-        technicians={fields}
-        onRemove={remove}
+        technicians={technicianFields}
+        onRemove={removeTechnician}
         editSettings={editSettings}
       />
-      <AddTechnician onAdd={append} editSettings={editSettings} />
+      <AddTechnician onAdd={appendTechnician} editSettings={editSettings} />
+      <DisplayManufacturers
+        manufacturers={manufacturerFields}
+        onRemove={removeManufacturer}
+        editSettings={editSettings}
+      />
+      <AddManufacturer onAdd={appendManufacturer} editSettings={editSettings} />
     </Box>
   );
 };
