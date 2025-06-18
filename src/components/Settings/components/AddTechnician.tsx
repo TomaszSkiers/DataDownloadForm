@@ -28,6 +28,7 @@ const AddTechnicianComponent = ({
   onAdd,
   editSettings,
 }: AddTechnicianFormProps) => {
+  
   const {
     register,
     handleSubmit,
