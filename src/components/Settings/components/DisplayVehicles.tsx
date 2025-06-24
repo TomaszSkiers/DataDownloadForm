@@ -14,6 +14,7 @@ import {
   DialogContent,
   DialogActions,
   useTheme,
+  Divider,
 } from "@mui/material";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -29,6 +30,7 @@ type DisplayVehiclesProps = {
   vehicles: Vehicle[];
   onRemove?: (index: number) => void;
   editSettings?: boolean;
+  defaultExpanded?: boolean;
 };
 
 const ITEM_HEIGHT = 48;
@@ -37,9 +39,10 @@ export const DisplayVehicles: React.FC<DisplayVehiclesProps> = ({
   vehicles,
   onRemove,
   editSettings,
+  defaultExpanded = false,
 }) => {
   const theme = useTheme();
-  const [showList, setShowList] = useState(false);
+  const [expanded, setExpanded] = useState(defaultExpanded);
   const [pendingRemoveIndex, setPendingRemoveIndex] = useState<number | null>(
     null
   );
@@ -66,119 +69,131 @@ export const DisplayVehicles: React.FC<DisplayVehiclesProps> = ({
     setPendingRemoveIndex(null);
   };
 
+  const toggleExpand = () => {
+    setExpanded(!expanded);
+  };
+
   return (
-    <Box
-      sx={{
-        mt: 3,
-        border: "1px solid",
-        borderColor: theme.palette.divider,
-        p: 2,
-        borderRadius: 2,
-        bgcolor: theme.palette.background.paper,
+    <Paper 
+      elevation={2} 
+      sx={{ 
+        p: 2, 
+        mb: 3,
+        borderLeft: `4px solid ${theme.palette.primary.main}`
       }}
     >
-      <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-        <Typography
-          variant="h6"
-          sx={{
-            flexGrow: 1,
-            color: !editSettings ? inactiveColor : undefined,
-          }}
-        >
+      <Box 
+        display="flex" 
+        alignItems="center" 
+        justifyContent="space-between"
+        onClick={toggleExpand}
+        sx={{ 
+          cursor: "pointer",
+          '&:hover': {
+            backgroundColor: theme.palette.action.hover,
+            borderRadius: 1
+          },
+          p: 1,
+          ml: -1
+        }}
+      >
+        <Typography variant="h6" component="h2" sx={{
+          color: !editSettings ? inactiveColor : undefined,
+        }}>
           Pojazdy
         </Typography>
-        <Tooltip
-          title={showList ? "Ukryj listę pojazdów" : "Pokaż listę pojazdów"}
+        <IconButton 
+          size="small" 
+          onClick={toggleExpand}
+          aria-label={expanded ? "Zwiń sekcję" : "Rozwiń sekcję"}
+          disabled={!editSettings}
         >
-          <IconButton
-            aria-label={
-              showList ? "Ukryj listę pojazdów" : "Pokaż listę pojazdów"
-            }
-            onClick={() => setShowList((prev) => !prev)}
-            size="small"
-          >
-            {showList ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </IconButton>
-        </Tooltip>
+          {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+        </IconButton>
       </Box>
-      <Collapse in={showList}>
-        <Stack
-          spacing={2}
-          sx={{
-            maxHeight: ITEM_HEIGHT * 5,
-            overflowY: "auto",
-            pr: 1,
-          }}
-        >
-          {vehicles.length > 0 ? (
-            vehicles.map((vehicle, index) => (
-              <Paper
-                key={vehicle.id}
-                elevation={1}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  p: 1.5,
-                  borderRadius: 2,
-                  bgcolor: theme.palette.background.default,
-                  gap: 2,
-                  opacity: !editSettings ? 0.7 : 1,
-                }}
-              >
-                <Avatar
+
+      <Divider sx={{ my: 1 }} />
+
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <Box sx={{ mt: 2 }}>
+          <Stack
+            spacing={2}
+            sx={{
+              maxHeight: ITEM_HEIGHT * 5,
+              overflowY: "auto",
+              pr: 1,
+            }}
+          >
+            {vehicles.length > 0 ? (
+              vehicles.map((vehicle, index) => (
+                <Paper
+                  key={vehicle.id}
+                  elevation={1}
                   sx={{
-                    width: 36,
-                    height: 36,
-                    color: !editSettings ? inactiveIconColor : undefined,
-                    bgcolor: !editSettings
-                      ? theme.palette.action.disabledBackground
-                      : "primary.main",
+                    display: "flex",
+                    alignItems: "center",
+                    p: 1.5,
+                    borderRadius: 2,
+                    bgcolor: theme.palette.background.default,
+                    gap: 2,
+                    opacity: !editSettings ? 0.7 : 1,
                   }}
                 >
-                  <DirectionsCarIcon />
-                </Avatar>
-                <Box sx={{ flex: 1 }}>
-                  <Typography
-                    variant="subtitle1"
+                  <Avatar
                     sx={{
-                      fontWeight: 500,
-                      color: !editSettings ? inactiveColor : undefined,
+                      width: 36,
+                      height: 36,
+                      color: !editSettings ? inactiveIconColor : undefined,
+                      bgcolor: !editSettings
+                        ? theme.palette.action.disabledBackground
+                        : theme.palette.primary.main,
                     }}
                   >
-                    {vehicle.name}
-                  </Typography>
-                </Box>
-                {editSettings && onRemove && (
-                  <Tooltip title="Usuń pojazd">
-                    <IconButton
-                      color="error"
-                      onClick={(e) => {
-                        e.currentTarget.blur();
-                        handleRemoveClick(index);
+                    <DirectionsCarIcon />
+                  </Avatar>
+                  <Box sx={{ flex: 1 }}>
+                    <Typography
+                      variant="subtitle1"
+                      sx={{
+                        fontWeight: 500,
+                        color: !editSettings ? inactiveColor : undefined,
                       }}
-                      size="small"
                     >
-                      <DeleteIcon />
-                    </IconButton>
-                  </Tooltip>
-                )}
-              </Paper>
-            ))
-          ) : (
-            <Typography
-              align="center"
-              color="text.secondary"
-              sx={{
-                color: !editSettings ? inactiveColor : undefined,
-              }}
-            >
-              Brak pojazdów
-            </Typography>
-          )}
-        </Stack>
+                      {vehicle.name}
+                    </Typography>
+                  </Box>
+                  {editSettings && onRemove && (
+                    <Tooltip title="Usuń pojazd">
+                      <IconButton
+                        color="error"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleRemoveClick(index);
+                        }}
+                        size="small"
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Tooltip>
+                  )}
+                </Paper>
+              ))
+            ) : (
+              <Typography
+                align="center"
+                color="text.secondary"
+                sx={{
+                  py: 2,
+                  color: !editSettings ? inactiveColor : undefined,
+                }}
+              >
+                Brak pojazdów
+              </Typography>
+            )}
+          </Stack>
+        </Box>
       </Collapse>
 
-      {/* Okno dialogowe potwierdzające usunięcie */}
       <Dialog open={openDialog} onClose={handleCancel}>
         <DialogTitle>Potwierdź usunięcie</DialogTitle>
         <DialogContent>
@@ -197,7 +212,7 @@ export const DisplayVehicles: React.FC<DisplayVehiclesProps> = ({
           </Button>
         </DialogActions>
       </Dialog>
-    </Box>
+    </Paper>
   );
 };
 

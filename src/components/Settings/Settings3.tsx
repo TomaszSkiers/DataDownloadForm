@@ -115,7 +115,7 @@ export const Settings3: React.FC = () => {
         editSettings={editSettings}
         onRemove={removeVehicle}
       />
-      <AddVehicle onAdd={appendVehicle} editSettings={editSettings} />
+      <AddVehicle onAdd={appendVehicle} editSettings={editSettings}  />
       <DisplayTechnicians
         technicians={technicianFields}
         onRemove={removeTechnician}
