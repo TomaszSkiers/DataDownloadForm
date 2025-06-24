@@ -1,9 +1,24 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { 
+  Box, 
+  TextField, 
+  Typography, 
+  useTheme,
+  Paper,
+  Divider,
+  IconButton,
+  InputAdornment,
+  Collapse,
+  Snackbar,
+  Alert
+} from "@mui/material";
+import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CharCounter } from "../../commonComponents/CharCounter";
-import { useEffect } from "react";
+import AddIcon from "@mui/icons-material/Add";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import React, { useEffect, useState } from "react";
 
 const addManufacturerSchema = z.object({
   name: z
@@ -14,89 +29,186 @@ const addManufacturerSchema = z.object({
 
 type AddManufacturerForm = z.infer<typeof addManufacturerSchema>;
 
-type AddManufacturerFormProps = {
+type AddManufacturerProps = {
   onAdd: (manufacturer: AddManufacturerForm) => void;
   editSettings?: boolean;
+  defaultExpanded?: boolean;
 };
 
-const AddManufacturer = ({ onAdd, editSettings }: AddManufacturerFormProps) => {
+const AddManufacturerComponent = ({ 
+  onAdd, 
+  editSettings,
+  defaultExpanded = false 
+}: AddManufacturerProps) => {
+  const theme = useTheme();
+  const [expanded, setExpanded] = useState(defaultExpanded);
+  const [showSuccess, setShowSuccess] = useState(false);
   const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
     control,
+    handleSubmit,
+    formState: { errors, isDirty, isValid },
+    reset,
   } = useForm<AddManufacturerForm>({
     resolver: zodResolver(addManufacturerSchema),
     defaultValues: { name: "" },
+    mode: "onChange"
   });
 
   const onSubmit = (data: AddManufacturerForm) => {
     onAdd(data);
     reset();
+    setShowSuccess(true);
   };
 
-  // Resetuj formularz, gdy edycja zostaje wyłączona
   useEffect(() => {
     if (!editSettings) {
       reset();
+      setExpanded(false);
     }
   }, [editSettings, reset]);
 
-  return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit(onSubmit)}
-      sx={{
-        p: 2,
-        border: (theme) => `1px solid ${theme.palette.divider}`,
-        borderRadius: 1,
-      }}
-    >
-      <Typography
-        variant="h6"
-        gutterBottom
-        sx={{ mb: 2, color: !editSettings ? "text.disabled" : undefined }}
-      >
-        Dodaj producenta
-      </Typography>
+  const inactiveColor = theme.palette.text.disabled;
 
-      <TextField
-        label="Nazwa producenta"
-        variant="outlined"
-        fullWidth
-        disabled={!editSettings}
-        {...register("name")}
-        error={!!errors.name}
-        helperText={
-          <span
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              minHeight: 24,
-              width: "100%",
+  const toggleExpand = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (editSettings) {
+      setExpanded(!expanded);
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setShowSuccess(false);
+  };
+
+  return (
+    <>
+      <Paper 
+        elevation={2} 
+        sx={{ 
+          p: 0,
+          mb: 3,
+          borderLeft: `4px solid ${theme.palette.primary.main}`,
+          overflow: 'hidden'
+        }}
+      >
+        <Box 
+          display="flex" 
+          alignItems="center"
+          onClick={toggleExpand}
+          sx={{ 
+            cursor: editSettings ? "pointer" : "default",
+            '&:hover': editSettings ? {
+              backgroundColor: theme.palette.action.hover,
+            } : {},
+            p: 2,
+            pb: 1
+          }}
+        >
+          
+          <Typography 
+            variant="h6" 
+            component="h2"
+            sx={{
+              flexGrow: 1,
+              color: !editSettings ? inactiveColor : undefined,
             }}
           >
-            <span style={{ color: errors.name ? "red" : "inherit" }}>
-              {errors.name?.message ?? ""}
-            </span>
-            <CharCounter control={control} name="name" max={75} />
-          </span>
-        }
-        inputProps={{ maxLength: 75 }}
-      />
+            Dodaj producenta
+          </Typography>
+          {editSettings && (
+            <IconButton 
+              size="small" 
+              onClick={toggleExpand}
+              aria-label={expanded ? "Zwiń sekcję" : "Rozwiń sekcję"}
+              sx={{ mr: -1 }}
+            >
+              {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            </IconButton>
+          )}
+        </Box>
 
-      <Button
-        variant="outlined"
-        color="primary"
-        type="submit"
-        disabled={!editSettings}
-        fullWidth
+        <Collapse in={expanded && !!editSettings} timeout="auto" unmountOnExit>
+          <Divider sx={{ mx: 2, mb: 2 }} />
+          <Box
+            component="form"
+            onSubmit={handleSubmit(onSubmit)}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              px: 2,
+              pb: 2
+            }}
+          >
+            <Controller
+              name="name"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Nazwa producenta"
+                  variant="outlined"
+                  fullWidth
+                  disabled={!editSettings}
+                  error={!!errors.name}
+                  helperText={
+                    <Box
+                      display="flex"
+                      justifyContent="space-between"
+                      minHeight={24}
+                      width="100%"
+                    >
+                      <Typography 
+                        variant="caption" 
+                        color={errors.name ? "error" : "textSecondary"}
+                      >
+                        {errors.name?.message || " "}
+                      </Typography>
+                      <CharCounter control={control} name="name" max={75} />
+                    </Box>
+                  }
+                  inputProps={{ maxLength: 75 }}
+                  InputProps={{
+                    endAdornment: editSettings && (
+                      <InputAdornment position="end">
+                        <IconButton
+                          edge="end"
+                          color="primary"
+                          type="submit"
+                          disabled={!isDirty || !isValid}
+                          aria-label="Dodaj producenta"
+                          sx={{ mr: -1 }}
+                        >
+                          <AddIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && isDirty && isValid) {
+                      e.preventDefault();
+                      handleSubmit(onSubmit)();
+                    }
+                  }}
+                />
+              )}
+            />
+          </Box>
+        </Collapse>
+      </Paper>
+
+      <Snackbar
+        open={showSuccess}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
-        Dodaj producenta tachografu
-      </Button>
-    </Box>
+        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+          Producent został dodany pomyślnie!
+        </Alert>
+      </Snackbar>
+    </>
   );
 };
 
-export default AddManufacturer;
+export const AddManufacturer = React.memo(AddManufacturerComponent);

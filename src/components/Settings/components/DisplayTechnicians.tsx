@@ -14,6 +14,7 @@ import {
   DialogContent,
   DialogActions,
   useTheme,
+  Divider
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -30,6 +31,7 @@ type DisplayTechniciansProps = {
   technicians: Technician[];
   onRemove?: (index: number) => void;
   editSettings?: boolean;
+  defaultExpanded?: boolean;
 };
 
 const ITEM_HEIGHT = 48;
@@ -38,9 +40,10 @@ export const DisplayTechnicians: React.FC<DisplayTechniciansProps> = ({
   technicians,
   onRemove,
   editSettings,
+  defaultExpanded = false,
 }) => {
   const theme = useTheme();
-  const [showList, setShowList] = useState(true);
+  const [expanded, setExpanded] = useState(defaultExpanded);
   const [pendingRemoveIndex, setPendingRemoveIndex] = useState<number | null>(
     null
   );
@@ -67,42 +70,59 @@ export const DisplayTechnicians: React.FC<DisplayTechniciansProps> = ({
     setPendingRemoveIndex(null);
   };
 
+  const toggleExpand = () => {
+    
+      setExpanded(!expanded);
+    
+  };
+
   return (
-    <Box
-      sx={{
-        mt: 3,
-        border: "1px solid",
-        borderColor: theme.palette.divider,
-        p: 2,
-        borderRadius: 2,
-        bgcolor: theme.palette.background.paper,
+    <Paper 
+      elevation={2} 
+      sx={{ 
+        p: 2, 
+        mb: 3,
+        borderLeft: `4px solid ${theme.palette.primary.main}`
       }}
     >
-      <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-        <Typography
-          variant="h6"
+      <Box 
+        display="flex" 
+        alignItems="center" 
+        justifyContent="space-between"
+        onClick={toggleExpand}
+        sx={{ 
+          cursor: editSettings ? "pointer" : "default",
+          '&:hover': editSettings ? {
+            backgroundColor: theme.palette.action.hover,
+            borderRadius: 1
+          } : {},
+          p: 1,
+          ml: -1
+        }}
+      >
+        <Typography 
+          variant="h6" 
+          component="h2"
           sx={{
-            flexGrow: 1,
             color: !editSettings ? inactiveColor : undefined,
           }}
         >
           Technicy
         </Typography>
-        <Tooltip
-          title={showList ? "Ukryj listę techników" : "Pokaż listę techników"}
-        >
-          <IconButton
-            aria-label={
-              showList ? "Ukryj listę techników" : "Pokaż listę techników"
-            }
-            onClick={() => setShowList((prev) => !prev)}
-            size="small"
+        
+          <IconButton 
+            size="small" 
+            onClick={toggleExpand}
+            aria-label={expanded ? "Zwiń sekcję" : "Rozwiń sekcję"}
           >
-            {showList ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </IconButton>
-        </Tooltip>
+        
       </Box>
-      <Collapse in={showList}>
+
+      <Divider sx={{ my: 1 }} />
+
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
         <Stack
           spacing={2}
           sx={{
@@ -133,7 +153,7 @@ export const DisplayTechnicians: React.FC<DisplayTechniciansProps> = ({
                     color: !editSettings ? inactiveIconColor : undefined,
                     bgcolor: !editSettings
                       ? theme.palette.action.disabledBackground
-                      : "primary.main",
+                      : theme.palette.primary.main,
                   }}
                 >
                   <PersonIcon />
@@ -150,9 +170,8 @@ export const DisplayTechnicians: React.FC<DisplayTechniciansProps> = ({
                   </Typography>
                   <Typography
                     variant="body2"
-                    color="text.secondary"
                     sx={{
-                      color: !editSettings ? inactiveColor : undefined,
+                      color: !editSettings ? inactiveColor : theme.palette.text.secondary,
                     }}
                   >
                     {technician.number}
@@ -163,7 +182,7 @@ export const DisplayTechnicians: React.FC<DisplayTechniciansProps> = ({
                     <IconButton
                       color="error"
                       onClick={(e) => {
-                        e.currentTarget.blur();
+                        e.stopPropagation();
                         handleRemoveClick(index);
                       }}
                       size="small"
@@ -177,9 +196,9 @@ export const DisplayTechnicians: React.FC<DisplayTechniciansProps> = ({
           ) : (
             <Typography
               align="center"
-              color="text.secondary"
               sx={{
-                color: !editSettings ? inactiveColor : undefined,
+                py: 2,
+                color: !editSettings ? inactiveColor : theme.palette.text.secondary,
               }}
             >
               Brak techników
@@ -188,12 +207,10 @@ export const DisplayTechnicians: React.FC<DisplayTechniciansProps> = ({
         </Stack>
       </Collapse>
 
-      {/* Okno dialogowe potwierdzające usunięcie */}
       <Dialog open={openDialog} onClose={handleCancel}>
         <DialogTitle>Potwierdź usunięcie</DialogTitle>
         <DialogContent>
-          Czy na pewno chcesz usunąć tego technika? Tej operacji nie można
-          cofnąć.
+          Czy na pewno chcesz usunąć tego technika? Tej operacji nie można cofnąć.
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancel} color="primary">
@@ -208,6 +225,8 @@ export const DisplayTechnicians: React.FC<DisplayTechniciansProps> = ({
           </Button>
         </DialogActions>
       </Dialog>
-    </Box>
+    </Paper>
   );
 };
+
+export default DisplayTechnicians;

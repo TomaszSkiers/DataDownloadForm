@@ -10,7 +10,7 @@ import { ServiceData } from "./components/ServiceData";
 import { AddTechnician } from "./components/AddTechnician";
 import { DisplayTechnicians } from "./components/DisplayTechnicians";
 import type { FormData } from "./components/types";
-import AddManufacturer from "./components/AddManufacturer";
+import { AddManufacturer } from "./components/AddManufacturer";
 import { DisplayManufacturers } from "./components/DisplayManufacturers";
 import DisplayVehicles from "./components/DisplayVehicles";
 import { AddVehicle } from "./components/AddVehicle";

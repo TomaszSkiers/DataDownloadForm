@@ -15,6 +15,7 @@ import {
   Button,
   useTheme,
   Collapse,
+  Divider
 } from "@mui/material";
 import BusinessIcon from "@mui/icons-material/Business";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -30,19 +31,19 @@ type Props = {
   manufacturers: ManufacturerWithId[];
   onRemove?: (index: number) => void;
   editSettings?: boolean;
+  defaultExpanded?: boolean;
 };
 
 const DisplayManufacturersComponent = ({
   manufacturers,
   onRemove,
   editSettings,
+  defaultExpanded = false,
 }: Props) => {
   const theme = useTheme();
   const [openDialog, setOpenDialog] = useState(false);
-  const [pendingRemoveIndex, setPendingRemoveIndex] = useState<number | null>(
-    null
-  );
-  const [expanded, setExpanded] = useState(false);
+  const [pendingRemoveIndex, setPendingRemoveIndex] = useState<number | null>(null);
+  const [expanded, setExpanded] = useState(defaultExpanded);
 
   const handleRemoveClick = (index: number) => {
     setPendingRemoveIndex(index);
@@ -62,47 +63,62 @@ const DisplayManufacturersComponent = ({
     setPendingRemoveIndex(null);
   };
 
+  const toggleExpand = () => {
+    
+      setExpanded(!expanded);
+    
+  };
+
   const inactiveColor = theme.palette.text.disabled;
   const inactiveIconColor = theme.palette.action.disabled;
 
   return (
-    <Box
-      sx={{
-        mt: 3,
-        border: "1px solid",
-        borderColor: theme.palette.divider,
-        p: 2,
-        borderRadius: 2,
-        bgcolor: theme.palette.background.paper,
+    <Paper 
+      elevation={2} 
+      sx={{ 
+        p: 2, 
+        mb: 3,
+        borderLeft: `4px solid ${theme.palette.primary.main}`
       }}
     >
-      <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-        <Typography
-          variant="h6"
+      <Box 
+        display="flex" 
+        alignItems="center" 
+        justifyContent="space-between"
+        onClick={toggleExpand}
+        sx={{ 
+          cursor: editSettings ? "pointer" : "default",
+          '&:hover': editSettings ? {
+            backgroundColor: theme.palette.action.hover,
+            borderRadius: 1
+          } : {},
+          p: 1,
+          ml: -1
+        }}
+      >
+        <Typography 
+          variant="h6" 
+          component="h2"
           sx={{
-            flexGrow: 1,
             color: !editSettings ? inactiveColor : undefined,
           }}
         >
           Producenci
         </Typography>
-        <Tooltip
-          title={
-            expanded ? "Ukryj listę producentów" : "Pokaż listę producentów"
-          }
-        >
-          <IconButton
-            aria-label={
-              expanded ? "Ukryj listę producentów" : "Pokaż listę producentów"
-            }
-            onClick={() => setExpanded((prev) => !prev)}
-            size="small"
+        
+          <IconButton 
+            size="small" 
+            onClick={toggleExpand}
+            aria-label={expanded ? "Zwiń sekcję" : "Rozwiń sekcję"}
           >
             {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </IconButton>
-        </Tooltip>
+        
       </Box>
-      <Collapse in={expanded}>
+
+      <Divider sx={{ my: 1 }} />
+
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
         {manufacturers.length > 0 ? (
           <Stack spacing={2}>
             {manufacturers.map((manufacturer, index) => (
@@ -126,7 +142,7 @@ const DisplayManufacturersComponent = ({
                     color: !editSettings ? inactiveIconColor : undefined,
                     bgcolor: !editSettings
                       ? theme.palette.action.disabledBackground
-                      : "primary.main",
+                      : theme.palette.primary.main,
                   }}
                 >
                   <BusinessIcon />
@@ -147,7 +163,7 @@ const DisplayManufacturersComponent = ({
                     <IconButton
                       color="error"
                       onClick={(e) => {
-                        e.currentTarget.blur();
+                        e.stopPropagation();
                         handleRemoveClick(index);
                       }}
                       size="small"
@@ -162,9 +178,9 @@ const DisplayManufacturersComponent = ({
         ) : (
           <Typography
             align="center"
-            color="text.secondary"
             sx={{
-              color: !editSettings ? inactiveColor : undefined,
+              py: 2,
+              color: !editSettings ? inactiveColor : theme.palette.text.secondary,
             }}
           >
             Brak producentów
@@ -172,13 +188,11 @@ const DisplayManufacturersComponent = ({
         )}
       </Collapse>
 
-      {/* Okno dialogowe potwierdzające usunięcie */}
       <Dialog open={openDialog} onClose={handleCancel}>
         <DialogTitle>Potwierdź usunięcie</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Czy na pewno chcesz usunąć tego producenta? Tej operacji nie można
-            cofnąć.
+            Czy na pewno chcesz usunąć tego producenta? Tej operacji nie można cofnąć.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -194,7 +208,7 @@ const DisplayManufacturersComponent = ({
           </Button>
         </DialogActions>
       </Dialog>
-    </Box>
+    </Paper>
   );
 };
 
