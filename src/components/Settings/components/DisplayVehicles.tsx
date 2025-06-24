@@ -14,7 +14,6 @@ import {
   DialogContent,
   DialogActions,
   useTheme,
-  Divider,
 } from "@mui/material";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -74,36 +73,40 @@ export const DisplayVehicles: React.FC<DisplayVehiclesProps> = ({
   };
 
   return (
-    <Paper 
-      elevation={2} 
-      sx={{ 
-        p: 2, 
+    <Paper
+      elevation={2}
+      sx={{
+        p: 2,
         mb: 3,
-        borderLeft: `4px solid ${theme.palette.primary.main}`
+        borderLeft: `4px solid ${theme.palette.primary.main}`,
       }}
     >
-      <Box 
-        display="flex" 
-        alignItems="center" 
+      <Box
+        display="flex"
+        alignItems="center"
         justifyContent="space-between"
         onClick={toggleExpand}
-        sx={{ 
+        sx={{
           cursor: "pointer",
-          '&:hover': {
+          "&:hover": {
             backgroundColor: theme.palette.action.hover,
-            borderRadius: 1
+            borderRadius: 1,
           },
           p: 1,
-          ml: -1
+          ml: -1,
         }}
       >
-        <Typography variant="h6" component="h2" sx={{
-          color: !editSettings ? inactiveColor : undefined,
-        }}>
+        <Typography
+          variant="h6"
+          component="h2"
+          sx={{
+            color: !editSettings ? inactiveColor : undefined,
+          }}
+        >
           Pojazdy
         </Typography>
-        <IconButton 
-          size="small" 
+        <IconButton
+          size="small"
           onClick={toggleExpand}
           aria-label={expanded ? "Zwiń sekcję" : "Rozwiń sekcję"}
           disabled={!editSettings}
@@ -111,8 +114,6 @@ export const DisplayVehicles: React.FC<DisplayVehiclesProps> = ({
           {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         </IconButton>
       </Box>
-
-      <Divider sx={{ my: 1 }} />
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <Box sx={{ mt: 2 }}>

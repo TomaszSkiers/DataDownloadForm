@@ -85,7 +85,7 @@ const AddManufacturerComponent = ({
       <Paper 
         elevation={2} 
         sx={{ 
-          p: 0,
+          p: 2,
           mb: 3,
           borderLeft: `4px solid ${theme.palette.primary.main}`,
           overflow: 'hidden'
@@ -100,8 +100,8 @@ const AddManufacturerComponent = ({
             '&:hover': editSettings ? {
               backgroundColor: theme.palette.action.hover,
             } : {},
-            p: 2,
-            pb: 1
+            p: 1,
+            ml: -1
           }}
         >
           

@@ -14,7 +14,6 @@ import {
   DialogContent,
   DialogActions,
   useTheme,
-  Divider
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -71,37 +70,37 @@ export const DisplayTechnicians: React.FC<DisplayTechniciansProps> = ({
   };
 
   const toggleExpand = () => {
-    
-      setExpanded(!expanded);
-    
+    setExpanded(!expanded);
   };
 
   return (
-    <Paper 
-      elevation={2} 
-      sx={{ 
-        p: 2, 
+    <Paper
+      elevation={2}
+      sx={{
+        p: 2,
         mb: 3,
-        borderLeft: `4px solid ${theme.palette.primary.main}`
+        borderLeft: `4px solid ${theme.palette.primary.main}`,
       }}
     >
-      <Box 
-        display="flex" 
-        alignItems="center" 
+      <Box
+        display="flex"
+        alignItems="center"
         justifyContent="space-between"
         onClick={toggleExpand}
-        sx={{ 
+        sx={{
           cursor: editSettings ? "pointer" : "default",
-          '&:hover': editSettings ? {
-            backgroundColor: theme.palette.action.hover,
-            borderRadius: 1
-          } : {},
+          "&:hover": editSettings
+            ? {
+                backgroundColor: theme.palette.action.hover,
+                borderRadius: 1,
+              }
+            : {},
           p: 1,
-          ml: -1
+          ml: -1,
         }}
       >
-        <Typography 
-          variant="h6" 
+        <Typography
+          variant="h6"
           component="h2"
           sx={{
             color: !editSettings ? inactiveColor : undefined,
@@ -109,18 +108,15 @@ export const DisplayTechnicians: React.FC<DisplayTechniciansProps> = ({
         >
           Technicy
         </Typography>
-        
-          <IconButton 
-            size="small" 
-            onClick={toggleExpand}
-            aria-label={expanded ? "Zwiń sekcję" : "Rozwiń sekcję"}
-          >
-            {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </IconButton>
-        
-      </Box>
 
-      <Divider sx={{ my: 1 }} />
+        <IconButton
+          size="small"
+          onClick={toggleExpand}
+          aria-label={expanded ? "Zwiń sekcję" : "Rozwiń sekcję"}
+        >
+          {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+        </IconButton>
+      </Box>
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <Stack
@@ -171,7 +167,9 @@ export const DisplayTechnicians: React.FC<DisplayTechniciansProps> = ({
                   <Typography
                     variant="body2"
                     sx={{
-                      color: !editSettings ? inactiveColor : theme.palette.text.secondary,
+                      color: !editSettings
+                        ? inactiveColor
+                        : theme.palette.text.secondary,
                     }}
                   >
                     {technician.number}
@@ -198,7 +196,9 @@ export const DisplayTechnicians: React.FC<DisplayTechniciansProps> = ({
               align="center"
               sx={{
                 py: 2,
-                color: !editSettings ? inactiveColor : theme.palette.text.secondary,
+                color: !editSettings
+                  ? inactiveColor
+                  : theme.palette.text.secondary,
               }}
             >
               Brak techników
@@ -210,7 +210,8 @@ export const DisplayTechnicians: React.FC<DisplayTechniciansProps> = ({
       <Dialog open={openDialog} onClose={handleCancel}>
         <DialogTitle>Potwierdź usunięcie</DialogTitle>
         <DialogContent>
-          Czy na pewno chcesz usunąć tego technika? Tej operacji nie można cofnąć.
+          Czy na pewno chcesz usunąć tego technika? Tej operacji nie można
+          cofnąć.
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancel} color="primary">

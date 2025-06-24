@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { 
-  Box, 
-  TextField, 
-  Typography, 
+import {
+  Box,
+  TextField,
+  Typography,
   useTheme,
   Paper,
-  Divider,
   IconButton,
   InputAdornment,
   Collapse,
   Snackbar,
-  Alert
+  Alert,
 } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
@@ -35,10 +34,10 @@ type AddVehicleProps = {
   defaultExpanded?: boolean;
 };
 
-const AddVehicleComponent = ({ 
-  onAdd, 
+const AddVehicleComponent = ({
+  onAdd,
   editSettings,
-  defaultExpanded = false 
+  defaultExpanded = false,
 }: AddVehicleProps) => {
   const theme = useTheme();
   const [expanded, setExpanded] = useState(defaultExpanded);
@@ -51,7 +50,7 @@ const AddVehicleComponent = ({
   } = useForm<AddVehicleForm>({
     resolver: zodResolver(addVehicleSchema),
     defaultValues: { name: "" },
-    mode: "onChange"
+    mode: "onChange",
   });
 
   const onSubmit = (data: AddVehicleForm) => {
@@ -82,31 +81,33 @@ const AddVehicleComponent = ({
 
   return (
     <>
-      <Paper 
-        elevation={2} 
-        sx={{ 
-          p: 2, 
+      <Paper
+        elevation={2}
+        sx={{
+          p: 2,
           mb: 3,
-          borderLeft: `4px solid ${theme.palette.primary.main}`
+          borderLeft: `4px solid ${theme.palette.primary.main}`,
         }}
       >
-        <Box 
-          display="flex" 
-          alignItems="center" 
+        <Box
+          display="flex"
+          alignItems="center"
           justifyContent="space-between"
           onClick={editSettings ? toggleExpand : undefined}
-          sx={{ 
+          sx={{
             cursor: editSettings ? "pointer" : "default",
-            '&:hover': editSettings ? {
-              backgroundColor: theme.palette.action.hover,
-              borderRadius: 1
-            } : {},
+            "&:hover": editSettings
+              ? {
+                  backgroundColor: theme.palette.action.hover,
+                  borderRadius: 1,
+                }
+              : {},
             p: 1,
-            ml: -1
+            ml: -1,
           }}
         >
-          <Typography 
-            variant="h6" 
+          <Typography
+            variant="h6"
             component="h2"
             sx={{
               color: !editSettings ? inactiveColor : undefined,
@@ -115,8 +116,8 @@ const AddVehicleComponent = ({
             Dodaj pojazd
           </Typography>
           {editSettings && (
-            <IconButton 
-              size="small" 
+            <IconButton
+              size="small"
               onClick={toggleExpand}
               aria-label={expanded ? "Zwiń sekcję" : "Rozwiń sekcję"}
             >
@@ -125,8 +126,6 @@ const AddVehicleComponent = ({
           )}
         </Box>
 
-        <Divider sx={{ my: 1 }} />
-
         <Collapse in={expanded && !!editSettings} timeout="auto" unmountOnExit>
           <Box
             component="form"
@@ -134,7 +133,7 @@ const AddVehicleComponent = ({
             sx={{
               display: "flex",
               flexDirection: "column",
-              gap: 2
+              gap: 2,
             }}
           >
             <Controller
@@ -155,8 +154,8 @@ const AddVehicleComponent = ({
                       minHeight={24}
                       width="100%"
                     >
-                      <Typography 
-                        variant="caption" 
+                      <Typography
+                        variant="caption"
                         color={errors.name ? "error" : "textSecondary"}
                       >
                         {errors.name?.message || " "}
@@ -197,9 +196,13 @@ const AddVehicleComponent = ({
         open={showSuccess}
         autoHideDuration={3000}
         onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
-        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
           Pojazd został dodany pomyślnie!
         </Alert>
       </Snackbar>

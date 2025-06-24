@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { 
-  Box, 
-  TextField, 
-  Typography, 
+import {
+  Box,
+  TextField,
+  Typography,
   useTheme,
   Paper,
-  Divider,
   IconButton,
   InputAdornment,
   Collapse,
   Snackbar,
-  Alert
+  Alert,
 } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
@@ -39,10 +38,10 @@ type AddTechnicianProps = {
   defaultExpanded?: boolean;
 };
 
-const AddTechnicianComponent = ({ 
-  onAdd, 
+const AddTechnicianComponent = ({
+  onAdd,
   editSettings,
-  defaultExpanded = false 
+  defaultExpanded = false,
 }: AddTechnicianProps) => {
   const theme = useTheme();
   const [expanded, setExpanded] = useState(defaultExpanded);
@@ -55,7 +54,7 @@ const AddTechnicianComponent = ({
   } = useForm<AddTechnicianForm>({
     resolver: zodResolver(addTechnicianSchema),
     defaultValues: { fullName: "", number: "" },
-    mode: "onChange"
+    mode: "onChange",
   });
 
   const onSubmit = (data: AddTechnicianForm) => {
@@ -85,31 +84,33 @@ const AddTechnicianComponent = ({
 
   return (
     <>
-      <Paper 
-        elevation={2} 
-        sx={{ 
-          p: 2, 
+      <Paper
+        elevation={2}
+        sx={{
+          p: 2,
           mb: 3,
-          borderLeft: `4px solid ${theme.palette.primary.main}`
+          borderLeft: `4px solid ${theme.palette.primary.main}`,
         }}
       >
-        <Box 
-          display="flex" 
-          alignItems="center" 
+        <Box
+          display="flex"
+          alignItems="center"
           justifyContent="space-between"
           onClick={toggleExpand}
-          sx={{ 
+          sx={{
             cursor: editSettings ? "pointer" : "default",
-            '&:hover': editSettings ? {
-              backgroundColor: theme.palette.action.hover,
-              borderRadius: 1
-            } : {},
+            "&:hover": editSettings
+              ? {
+                  backgroundColor: theme.palette.action.hover,
+                  borderRadius: 1,
+                }
+              : {},
             p: 1,
-            ml: -1
+            ml: -1,
           }}
         >
-          <Typography 
-            variant="h6" 
+          <Typography
+            variant="h6"
             component="h2"
             sx={{
               color: !editSettings ? inactiveColor : undefined,
@@ -118,8 +119,8 @@ const AddTechnicianComponent = ({
             Dodaj technika
           </Typography>
           {editSettings && (
-            <IconButton 
-              size="small" 
+            <IconButton
+              size="small"
               onClick={toggleExpand}
               aria-label={expanded ? "Zwiń sekcję" : "Rozwiń sekcję"}
             >
@@ -128,8 +129,6 @@ const AddTechnicianComponent = ({
           )}
         </Box>
 
-        <Divider sx={{ my: 1 }} />
-
         <Collapse in={expanded && !!editSettings} timeout="auto" unmountOnExit>
           <Box
             component="form"
@@ -137,7 +136,7 @@ const AddTechnicianComponent = ({
             sx={{
               display: "flex",
               flexDirection: "column",
-              gap: 2
+              gap: 2,
             }}
           >
             <Controller
@@ -158,8 +157,8 @@ const AddTechnicianComponent = ({
                       minHeight={24}
                       width="100%"
                     >
-                      <Typography 
-                        variant="caption" 
+                      <Typography
+                        variant="caption"
                         color={errors.fullName ? "error" : "textSecondary"}
                       >
                         {errors.fullName?.message || " "}
@@ -190,8 +189,8 @@ const AddTechnicianComponent = ({
                       minHeight={24}
                       width="100%"
                     >
-                      <Typography 
-                        variant="caption" 
+                      <Typography
+                        variant="caption"
                         color={errors.number ? "error" : "textSecondary"}
                       >
                         {errors.number?.message || " "}
@@ -232,9 +231,13 @@ const AddTechnicianComponent = ({
         open={showSuccess}
         autoHideDuration={3000}
         onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
-        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
           Technik został dodany pomyślnie!
         </Alert>
       </Snackbar>

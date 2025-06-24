@@ -1,12 +1,11 @@
-import { 
-  Box, 
-  TextField, 
-  IconButton, 
-  Collapse, 
+import {
+  Box,
+  TextField,
+  IconButton,
+  Collapse,
   Typography,
   Paper,
-  Divider,
-  useTheme
+  useTheme,
 } from "@mui/material";
 import { Controller, type Control, useFormState } from "react-hook-form";
 import type { FormData } from "./types";
@@ -21,10 +20,10 @@ type Props = {
   defaultExpanded?: boolean;
 };
 
-export const ServiceData = ({ 
-  control, 
-  editSettings, 
-  defaultExpanded = false 
+export const ServiceData = ({
+  control,
+  editSettings,
+  defaultExpanded = false,
 }: Props) => {
   const { errors } = useFormState({ control });
   const [expanded, setExpanded] = useState(defaultExpanded);
@@ -33,44 +32,48 @@ export const ServiceData = ({
   const toggleExpand = () => {
     setExpanded(!expanded);
   };
-
+  const inactiveColor = theme.palette.text.disabled;
   return (
-    <Paper 
-      elevation={2} 
-      sx={{ 
-        p: 2, 
+    <Paper
+      elevation={2}
+      sx={{
+        p: 2,
         mb: 3,
-        borderLeft: `4px solid ${theme.palette.primary.main}`
+        borderLeft: `4px solid ${theme.palette.primary.main}`,
       }}
     >
-      <Box 
-        display="flex" 
-        alignItems="center" 
+      <Box
+        display="flex"
+        alignItems="center"
         justifyContent="space-between"
         onClick={toggleExpand}
-        sx={{ 
+        sx={{
           cursor: "pointer",
-          '&:hover': {
+          "&:hover": {
             backgroundColor: theme.palette.action.hover,
-            borderRadius: 1
+            borderRadius: 1,
           },
           p: 1,
-          ml: -1
+          ml: -1,
         }}
       >
-        <Typography variant="h6" component="h2">
+        <Typography
+          variant="h6"
+          component="h2"
+          sx={{
+            color: !editSettings ? inactiveColor : undefined,
+          }}
+        >
           Dane serwisu
         </Typography>
-        <IconButton 
-          size="small" 
+        <IconButton
+          size="small"
           onClick={toggleExpand}
           aria-label={expanded ? "Zwiń sekcję" : "Rozwiń sekcję"}
         >
           {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         </IconButton>
       </Box>
-
-      <Divider sx={{ my: 1 }} />
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <Box sx={{ mt: 2 }}>
@@ -96,13 +99,17 @@ export const ServiceData = ({
                     minHeight={24}
                     width="100%"
                   >
-                    <Typography 
-                      variant="caption" 
+                    <Typography
+                      variant="caption"
                       color={errors.serviceName ? "error" : "textSecondary"}
                     >
                       {errors.serviceName?.message || " "}
                     </Typography>
-                    <CharCounter control={control} name="serviceName" max={75} />
+                    <CharCounter
+                      control={control}
+                      name="serviceName"
+                      max={75}
+                    />
                   </Box>
                 }
                 inputProps={{ maxLength: 75 }}
@@ -135,8 +142,8 @@ export const ServiceData = ({
                     minHeight={24}
                     width="100%"
                   >
-                    <Typography 
-                      variant="caption" 
+                    <Typography
+                      variant="caption"
                       color={errors.serviceAddress ? "error" : "textSecondary"}
                     >
                       {errors.serviceAddress?.message || " "}
