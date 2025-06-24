@@ -6,6 +6,7 @@ import {
   Typography,
   Paper,
   useTheme,
+ 
 } from "@mui/material";
 import { Controller, type Control, useFormState } from "react-hook-form";
 import type { FormData } from "./types";
@@ -33,6 +34,7 @@ export const ServiceData = ({
     setExpanded(!expanded);
   };
   const inactiveColor = theme.palette.text.disabled;
+  
   return (
     <Paper
       elevation={2}
@@ -47,14 +49,13 @@ export const ServiceData = ({
         alignItems="center"
         justifyContent="space-between"
         onClick={toggleExpand}
-        sx={{
-          cursor: "pointer",
-          "&:hover": {
+        sx={{ 
+          cursor: editSettings ? "pointer" : "default",
+          '&:hover': editSettings ? {
             backgroundColor: theme.palette.action.hover,
-            borderRadius: 1,
-          },
+          } : {},
           p: 1,
-          ml: -1,
+          ml: -1
         }}
       >
         <Typography
@@ -70,6 +71,7 @@ export const ServiceData = ({
           size="small"
           onClick={toggleExpand}
           aria-label={expanded ? "Zwiń sekcję" : "Rozwiń sekcję"}
+          disabled={!editSettings}
         >
           {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         </IconButton>
@@ -92,14 +94,19 @@ export const ServiceData = ({
                 fullWidth
                 margin="normal"
                 error={!!errors.serviceName}
+                FormHelperTextProps={{
+                  component: 'div' // Naprawia problem z <div> wewnątrz <p>
+                }}
                 helperText={
                   <Box
+                    component="span"
                     display="flex"
                     justifyContent="space-between"
                     minHeight={24}
                     width="100%"
                   >
                     <Typography
+                      component="span"
                       variant="caption"
                       color={errors.serviceName ? "error" : "textSecondary"}
                     >
@@ -135,14 +142,19 @@ export const ServiceData = ({
                 multiline
                 rows={3}
                 error={!!errors.serviceAddress}
+                FormHelperTextProps={{
+                  component: 'div' // Naprawia problem z <div> wewnątrz <p>
+                }}
                 helperText={
                   <Box
+                    component="span"
                     display="flex"
                     justifyContent="space-between"
                     minHeight={24}
                     width="100%"
                   >
                     <Typography
+                      component="span"
                       variant="caption"
                       color={errors.serviceAddress ? "error" : "textSecondary"}
                     >

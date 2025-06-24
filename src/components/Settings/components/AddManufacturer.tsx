@@ -1,10 +1,9 @@
-import { 
-  Box, 
-  TextField, 
-  Typography, 
+import {
+  Box,
+  TextField,
+  Typography,
   useTheme,
   Paper,
-  Divider,
   IconButton,
   InputAdornment,
   Collapse,
@@ -35,10 +34,10 @@ type AddManufacturerProps = {
   defaultExpanded?: boolean;
 };
 
-const AddManufacturerComponent = ({ 
-  onAdd, 
+const AddManufacturerComponent = ({
+  onAdd,
   editSettings,
-  defaultExpanded = false 
+  defaultExpanded = false,
 }: AddManufacturerProps) => {
   const theme = useTheme();
   const [expanded, setExpanded] = useState(defaultExpanded);
@@ -51,7 +50,7 @@ const AddManufacturerComponent = ({
   } = useForm<AddManufacturerForm>({
     resolver: zodResolver(addManufacturerSchema),
     defaultValues: { name: "" },
-    mode: "onChange"
+    mode: "onChange",
   });
 
   const onSubmit = (data: AddManufacturerForm) => {
@@ -82,30 +81,32 @@ const AddManufacturerComponent = ({
 
   return (
     <>
-      <Paper 
-        elevation={2} 
-        sx={{ 
+      <Paper
+        elevation={2}
+        sx={{
           p: 2,
           mb: 3,
           borderLeft: `4px solid ${theme.palette.primary.main}`,
-          overflow: 'hidden'
+          overflow: "hidden",
         }}
       >
-        <Box 
-          display="flex" 
+        <Box
+          display="flex"
           alignItems="center"
           onClick={toggleExpand}
-          sx={{ 
+          sx={{
             cursor: editSettings ? "pointer" : "default",
-            '&:hover': editSettings ? {
-              backgroundColor: theme.palette.action.hover,
-            } : {},
+            "&:hover": editSettings
+              ? {
+                  backgroundColor: theme.palette.action.hover,
+                }
+              : {},
             p: 1,
-            ml: -1
+            ml: -1,
           }}
         >
-          <Typography 
-            variant="h6" 
+          <Typography
+            variant="h6"
             component="h2"
             sx={{
               flexGrow: 1,
@@ -115,8 +116,8 @@ const AddManufacturerComponent = ({
             Dodaj producenta
           </Typography>
           {editSettings && (
-            <IconButton 
-              size="small" 
+            <IconButton
+              size="small"
               onClick={toggleExpand}
               aria-label={expanded ? "Zwiń sekcję" : "Rozwiń sekcję"}
               sx={{ mr: -1 }}
@@ -127,7 +128,6 @@ const AddManufacturerComponent = ({
         </Box>
 
         <Collapse in={expanded && !!editSettings} timeout="auto" unmountOnExit>
-          <Divider sx={{ mx: 2, mb: 2 }} />
           <Box
             component="form"
             onSubmit={handleSubmit(onSubmit)}
@@ -136,7 +136,8 @@ const AddManufacturerComponent = ({
               flexDirection: "column",
               gap: 2,
               px: 2,
-              pb: 2
+              pb: 2,
+              pt: 2,
             }}
           >
             <Controller
@@ -151,7 +152,7 @@ const AddManufacturerComponent = ({
                   disabled={!editSettings}
                   error={!!errors.name}
                   FormHelperTextProps={{
-                    component: 'div' // Naprawia problem z <div> wewnątrz <p>
+                    component: "div", // Naprawia problem z <div> wewnątrz <p>
                   }}
                   helperText={
                     <Box
@@ -161,9 +162,9 @@ const AddManufacturerComponent = ({
                       minHeight={24}
                       width="100%"
                     >
-                      <Typography 
+                      <Typography
                         component="span"
-                        variant="caption" 
+                        variant="caption"
                         color={errors.name ? "error" : "textSecondary"}
                       >
                         {errors.name?.message || " "}
@@ -205,9 +206,13 @@ const AddManufacturerComponent = ({
         open={showSuccess}
         autoHideDuration={3000}
         onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
-        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
           Producent został dodany pomyślnie!
         </Alert>
       </Snackbar>

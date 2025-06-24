@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react"; // Added useCallback
 import {
   Box,
   TextField,
@@ -53,11 +53,11 @@ const AddVehicleComponent = ({
     mode: "onChange",
   });
 
-  const onSubmit = (data: AddVehicleForm) => {
+  const onSubmit = useCallback((data: AddVehicleForm) => {
     onAdd(data);
     reset();
     setShowSuccess(true);
-  };
+  }, [onAdd, reset]);
 
   useEffect(() => {
     if (!editSettings) {
@@ -68,16 +68,16 @@ const AddVehicleComponent = ({
 
   const inactiveColor = theme.palette.text.disabled;
 
-  const toggleExpand = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const toggleExpand = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent event bubbling if parent has an onClick
     if (editSettings) {
-      setExpanded(!expanded);
+      setExpanded((prevExpanded) => !prevExpanded);
     }
-  };
+  }, [editSettings]);
 
-  const handleCloseSnackbar = () => {
+  const handleCloseSnackbar = useCallback(() => {
     setShowSuccess(false);
-  };
+  }, []);
 
   return (
     <>
@@ -93,7 +93,7 @@ const AddVehicleComponent = ({
           display="flex"
           alignItems="center"
           justifyContent="space-between"
-          onClick={editSettings ? toggleExpand : undefined}
+          onClick={editSettings ? toggleExpand : undefined} // Keep onClick on Box for general header click
           sx={{
             cursor: editSettings ? "pointer" : "default",
             "&:hover": editSettings
@@ -118,7 +118,7 @@ const AddVehicleComponent = ({
           {editSettings && (
             <IconButton
               size="small"
-              onClick={toggleExpand}
+              onClick={toggleExpand} // Ensure IconButton also triggers toggle
               aria-label={expanded ? "Zwiń sekcję" : "Rozwiń sekcję"}
             >
               {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
@@ -147,6 +147,7 @@ const AddVehicleComponent = ({
                   fullWidth
                   disabled={!editSettings}
                   error={!!errors.name}
+                  // --- FIX APPLIED HERE ---
                   helperText={
                     <Box
                       display="flex"
@@ -163,6 +164,8 @@ const AddVehicleComponent = ({
                       <CharCounter control={control} name="name" max={40} />
                     </Box>
                   }
+                  FormHelperTextProps={{ component: "div" }} // <--- THIS IS THE KEY FIX
+                  // --- END FIX ---
                   inputProps={{ maxLength: 40 }}
                   InputProps={{
                     endAdornment: editSettings && (
@@ -182,6 +185,7 @@ const AddVehicleComponent = ({
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && isDirty && isValid) {
                       e.preventDefault();
+                      // Call handleSubmit directly to trigger validation and submission
                       handleSubmit(onSubmit)();
                     }
                   }}
