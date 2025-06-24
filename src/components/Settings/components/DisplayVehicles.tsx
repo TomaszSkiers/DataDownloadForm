@@ -128,7 +128,7 @@ export const DisplayVehicles: React.FC<DisplayVehiclesProps> = ({
             {vehicles.length > 0 ? (
               vehicles.map((vehicle, index) => (
                 <Paper
-                  key={vehicle.id}
+                  key={index}
                   elevation={1}
                   sx={{
                     display: "flex",

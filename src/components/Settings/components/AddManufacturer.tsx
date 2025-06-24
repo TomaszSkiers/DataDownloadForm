@@ -9,7 +9,7 @@ import {
   InputAdornment,
   Collapse,
   Snackbar,
-  Alert
+  Alert,
 } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
@@ -104,7 +104,6 @@ const AddManufacturerComponent = ({
             ml: -1
           }}
         >
-          
           <Typography 
             variant="h6" 
             component="h2"
@@ -151,14 +150,19 @@ const AddManufacturerComponent = ({
                   fullWidth
                   disabled={!editSettings}
                   error={!!errors.name}
+                  FormHelperTextProps={{
+                    component: 'div' // Naprawia problem z <div> wewnątrz <p>
+                  }}
                   helperText={
                     <Box
+                      component="span"
                       display="flex"
                       justifyContent="space-between"
                       minHeight={24}
                       width="100%"
                     >
                       <Typography 
+                        component="span"
                         variant="caption" 
                         color={errors.name ? "error" : "textSecondary"}
                       >
