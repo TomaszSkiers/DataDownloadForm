@@ -36,17 +36,17 @@ const AddManufacturer = ({ onAdd, editSettings }: AddManufacturerFormProps) => {
     reset();
   };
 
-    // Resetuj formularz, gdy edycja zostaje wyłączona
-    useEffect(() => {
-      if (!editSettings) {
-        reset();
-      }
-    }, [editSettings, reset]);
+  // Resetuj formularz, gdy edycja zostaje wyłączona
+  useEffect(() => {
+    if (!editSettings) {
+      reset();
+    }
+  }, [editSettings, reset]);
 
   return (
     <Box
-        component="form"
-        onSubmit={handleSubmit(onSubmit)}
+      component="form"
+      onSubmit={handleSubmit(onSubmit)}
       sx={{
         p: 2,
         border: (theme) => `1px solid ${theme.palette.divider}`,
@@ -87,7 +87,7 @@ const AddManufacturer = ({ onAdd, editSettings }: AddManufacturerFormProps) => {
       />
 
       <Button
-      variant="outlined"
+        variant="outlined"
         color="primary"
         type="submit"
         disabled={!editSettings}

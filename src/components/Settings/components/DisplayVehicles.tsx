@@ -15,32 +15,31 @@ import {
   DialogActions,
   useTheme,
 } from "@mui/material";
-import PersonIcon from "@mui/icons-material/Person";
+import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-type Technician = {
+type Vehicle = {
   id: string;
-  fullName: string;
-  number: string;
+  name: string;
 };
 
-type DisplayTechniciansProps = {
-  technicians: Technician[];
+type DisplayVehiclesProps = {
+  vehicles: Vehicle[];
   onRemove?: (index: number) => void;
   editSettings?: boolean;
 };
 
 const ITEM_HEIGHT = 48;
 
-export const DisplayTechnicians: React.FC<DisplayTechniciansProps> = ({
-  technicians,
+export const DisplayVehicles: React.FC<DisplayVehiclesProps> = ({
+  vehicles,
   onRemove,
   editSettings,
 }) => {
   const theme = useTheme();
-  const [showList, setShowList] = useState(true);
+  const [showList, setShowList] = useState(false);
   const [pendingRemoveIndex, setPendingRemoveIndex] = useState<number | null>(
     null
   );
@@ -86,14 +85,14 @@ export const DisplayTechnicians: React.FC<DisplayTechniciansProps> = ({
             color: !editSettings ? inactiveColor : undefined,
           }}
         >
-          Technicy
+          Pojazdy
         </Typography>
         <Tooltip
-          title={showList ? "Ukryj listę techników" : "Pokaż listę techników"}
+          title={showList ? "Ukryj listę pojazdów" : "Pokaż listę pojazdów"}
         >
           <IconButton
             aria-label={
-              showList ? "Ukryj listę techników" : "Pokaż listę techników"
+              showList ? "Ukryj listę pojazdów" : "Pokaż listę pojazdów"
             }
             onClick={() => setShowList((prev) => !prev)}
             size="small"
@@ -111,10 +110,10 @@ export const DisplayTechnicians: React.FC<DisplayTechniciansProps> = ({
             pr: 1,
           }}
         >
-          {technicians.length > 0 ? (
-            technicians.map((technician, index) => (
+          {vehicles.length > 0 ? (
+            vehicles.map((vehicle, index) => (
               <Paper
-                key={technician.id}
+                key={vehicle.id}
                 elevation={1}
                 sx={{
                   display: "flex",
@@ -136,7 +135,7 @@ export const DisplayTechnicians: React.FC<DisplayTechniciansProps> = ({
                       : "primary.main",
                   }}
                 >
-                  <PersonIcon />
+                  <DirectionsCarIcon />
                 </Avatar>
                 <Box sx={{ flex: 1 }}>
                   <Typography
@@ -146,20 +145,11 @@ export const DisplayTechnicians: React.FC<DisplayTechniciansProps> = ({
                       color: !editSettings ? inactiveColor : undefined,
                     }}
                   >
-                    {technician.fullName}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{
-                      color: !editSettings ? inactiveColor : undefined,
-                    }}
-                  >
-                    {technician.number}
+                    {vehicle.name}
                   </Typography>
                 </Box>
                 {editSettings && onRemove && (
-                  <Tooltip title="Usuń technika">
+                  <Tooltip title="Usuń pojazd">
                     <IconButton
                       color="error"
                       onClick={(e) => {
@@ -182,7 +172,7 @@ export const DisplayTechnicians: React.FC<DisplayTechniciansProps> = ({
                 color: !editSettings ? inactiveColor : undefined,
               }}
             >
-              Brak techników
+              Brak pojazdów
             </Typography>
           )}
         </Stack>
@@ -192,8 +182,7 @@ export const DisplayTechnicians: React.FC<DisplayTechniciansProps> = ({
       <Dialog open={openDialog} onClose={handleCancel}>
         <DialogTitle>Potwierdź usunięcie</DialogTitle>
         <DialogContent>
-          Czy na pewno chcesz usunąć tego technika? Tej operacji nie można
-          cofnąć.
+          Czy na pewno chcesz usunąć ten pojazd? Tej operacji nie można cofnąć.
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancel} color="primary">
@@ -211,3 +200,5 @@ export const DisplayTechnicians: React.FC<DisplayTechniciansProps> = ({
     </Box>
   );
 };
+
+export default DisplayVehicles;

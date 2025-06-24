@@ -12,6 +12,8 @@ import { DisplayTechnicians } from "./components/DisplayTechnicians";
 import type { FormData } from "./components/types";
 import AddManufacturer from "./components/AddManufacturer";
 import { DisplayManufacturers } from "./components/DisplayManufacturers";
+import DisplayVehicles from "./components/DisplayVehicles";
+import { AddVehicle } from "./components/AddVehicle";
 
 export const Settings3: React.FC = () => {
   const [editSettings, setEditSettings] = React.useState(false);
@@ -22,6 +24,7 @@ export const Settings3: React.FC = () => {
       serviceAddress: "",
       technicians: [],
       manufacturers: [],
+      vehicles: [],
     },
   });
 
@@ -43,6 +46,15 @@ export const Settings3: React.FC = () => {
   } = useFieldArray({
     control,
     name: "manufacturers",
+  });
+
+  const {
+    // fields: vehicleFields,
+    append: appendVehicle,
+    remove: removeVehicle,
+  } = useFieldArray({
+    control,
+    name: "vehicles",
   });
 
   // Odczyt z localStorage przy starcie
@@ -98,6 +110,12 @@ export const Settings3: React.FC = () => {
         </Box>
       </Box>
       <ServiceData control={control} editSettings={editSettings} />
+      <DisplayVehicles
+        vehicles={control._formValues.vehicles}
+        editSettings={editSettings}
+        onRemove={removeVehicle}
+      />
+      <AddVehicle onAdd={appendVehicle} editSettings={editSettings} />
       <DisplayTechnicians
         technicians={technicianFields}
         onRemove={removeTechnician}

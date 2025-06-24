@@ -19,8 +19,8 @@ import { exportPdf } from "../../functions/pdf/expPdf";
 import { DocumentDataSection } from "./sections/DocumentDataSection";
 import { PersonSection } from "./sections/PersonSection";
 import { CompanySection } from "./sections/CompanySection";
-import { TahographSection } from "./sections/TagographSection";
-import { VehicleSection } from "./sections/VegicleSection";
+import { TahographSection } from "./sections/TahographSection";
+import { VehicleSection } from "./sections/VehicleSection";
 import { DataInfoSection } from "./sections/DataInfoSection";
 import { ServiceSection } from "./sections/ServiceSection";
 import { openPdfInNewTab } from "../../functions/pdfLib/pages/openPdfInNewTab";
@@ -82,7 +82,7 @@ export default function Home2() {
       <PersonSection control={control} errors={errors} />
       <CompanySection control={control} errors={errors} />
       <TahographSection control={control} errors={errors} setValue={setValue} />
-      <VehicleSection control={control} errors={errors} />
+      <VehicleSection control={control} errors={errors} setValue={setValue} />
       <DataInfoSection control={control} errors={errors} />
       <ServiceSection  control={control} errors={errors} setValue={setValue}/>
 
